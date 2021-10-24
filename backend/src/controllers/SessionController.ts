@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { verify } from "jsonwebtoken";
 import prismaClient from "@src/config/prisma";
 import bcrypt from "bcrypt";
+import * as yup from "yup";
 import { handleGenerateTokens } from "@src/utils/generateToken";
 
 class SessionController {
@@ -10,6 +11,15 @@ class SessionController {
       const userModel = prismaClient.user;
 
       const { username, password } = request.body;
+
+      const schema = yup.object().shape({
+        username: yup.string().required(),
+        password: yup.string().required(),
+      });
+
+      await schema.validate(request.body, {
+        abortEarly: false,
+      });
 
       const isUserExists = await userModel.findFirst({
         where: {
