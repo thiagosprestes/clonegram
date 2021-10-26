@@ -8,7 +8,9 @@ class UserController {
     try {
       const userModel = prismaClient.user;
 
-      const { username, email, password, profile_picture, bio } = request.body;
+      const { username, email, password, bio } = request.body;
+
+      const profile_picture = request.file && request.file.filename;
 
       const data = {
         username,
