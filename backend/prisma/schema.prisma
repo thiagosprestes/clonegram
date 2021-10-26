@@ -11,12 +11,14 @@ datasource db {
 }
 
 model User {
-  id        String  @id @default(uuid())
-  username  String  @unique
-  email     String  @unique
-  password  String
-  profile   Profile @relation(fields: [profileId], references: [id])
-  profileId String  @default(uuid())
+  id          String        @id @default(uuid())
+  username    String        @unique
+  email       String        @unique
+  password    String
+  profile     Profile       @relation(fields: [profileId], references: [id])
+  profileId   String        @default(uuid())
+  Post        Post[]
+  PostComment PostComment[]
 }
 
 model Profile {
@@ -26,4 +28,31 @@ model Profile {
   bio             String?
   profile_picture String?
   User            User[]
+}
+
+model Post {
+  id          String        @id @default(uuid())
+  user        User          @relation(fields: [userId], references: [id])
+  userId      String
+  location    String?
+  description String?
+  createdAt   DateTime      @default(now())
+  PostFile    PostFile[]
+  PostComment PostComment[]
+}
+
+model PostFile {
+  id       String @id @default(uuid())
+  post     Post   @relation(fields: [postId], references: [id])
+  postId   String
+  filename String
+}
+
+model PostComment {
+  id      String @id @default(uuid())
+  post    Post   @relation(fields: [postId], references: [id])
+  postId  String
+  user    User   @relation(fields: [userId], references: [id])
+  userId  String
+  comment String
 }
