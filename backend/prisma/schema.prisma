@@ -15,7 +15,7 @@ model User {
   username    String        @unique
   email       String        @unique
   password    String
-  profile     Profile       @relation(fields: [profileId], references: [id])
+  profile     Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
   profileId   String        @default(uuid())
   Post        Post[]
   PostComment PostComment[]
@@ -32,7 +32,7 @@ model Profile {
 
 model Post {
   id          String        @id @default(uuid())
-  user        User          @relation(fields: [userId], references: [id])
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   location    String?
   description String?
@@ -43,16 +43,16 @@ model Post {
 
 model PostFile {
   id       String @id @default(uuid())
-  post     Post   @relation(fields: [postId], references: [id])
+  post     Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId   String
   filename String
 }
 
 model PostComment {
   id      String @id @default(uuid())
-  post    Post   @relation(fields: [postId], references: [id])
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId  String
-  user    User   @relation(fields: [userId], references: [id])
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
   comment String
 }
