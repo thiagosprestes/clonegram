@@ -19,6 +19,7 @@ model User {
   profileId   String        @default(uuid())
   Post        Post[]
   PostComment PostComment[]
+  PostLike    PostLike[]
 }
 
 model Profile {
@@ -39,6 +40,7 @@ model Post {
   createdAt   DateTime      @default(now())
   PostFile    PostFile[]
   PostComment PostComment[]
+  PostLike    PostLike[]
 }
 
 model PostFile {
@@ -55,4 +57,12 @@ model PostComment {
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId  String
   comment String
+}
+
+model PostLike {
+  id     String @id @default(uuid())
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
 }

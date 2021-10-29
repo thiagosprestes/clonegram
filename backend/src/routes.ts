@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { upload } from "./config/multer";
+import { PostCommentController } from "./controllers/PostCommentController";
 import { PostController } from "./controllers/PostController";
+import { PostLikeController } from "./controllers/PostLikeController";
 import { SessionController } from "./controllers/SessionController";
 import { UserController } from "./controllers/UserController";
 import { sessionMiddleware } from "./middlewares/SessionMiddleware";
@@ -25,3 +27,35 @@ router.post(
 router.get("/posts/:userId", sessionMiddleware, new PostController().index);
 router.put("/posts/:postId", sessionMiddleware, new PostController().update);
 router.delete("/posts/:postId", sessionMiddleware, new PostController().delete);
+
+router.post(
+  "/posts/:postId",
+  sessionMiddleware,
+  new PostCommentController().create
+);
+router.get(
+  "/posts/:postId/comments",
+  sessionMiddleware,
+  new PostCommentController().index
+);
+router.delete(
+  "/posts/comments/:postCommentId",
+  sessionMiddleware,
+  new PostCommentController().delete
+);
+
+router.post(
+  "/posts/:postId/like",
+  sessionMiddleware,
+  new PostLikeController().create
+);
+router.get(
+  "/posts/:postId/likes",
+  sessionMiddleware,
+  new PostLikeController().index
+);
+router.delete(
+  "/posts/likes/:postLikeId",
+  sessionMiddleware,
+  new PostLikeController().delete
+);
