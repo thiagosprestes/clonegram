@@ -11,15 +11,17 @@ datasource db {
 }
 
 model User {
-  id          String        @id @default(uuid())
-  username    String        @unique
-  email       String        @unique
-  password    String
-  profile     Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId   String        @default(uuid())
-  Post        Post[]
-  PostComment PostComment[]
-  PostLike    PostLike[]
+  id            String          @id @default(uuid())
+  username      String          @unique
+  email         String          @unique
+  password      String
+  profile       Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId     String          @default(uuid())
+  Post          Post[]
+  PostComment   PostComment[]
+  PostLike      PostLike[]
+  UserFollows   UserFollows[]
+  UserFollowers UserFollowers[]
 }
 
 model Profile {
@@ -65,4 +67,18 @@ model PostLike {
   postId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+}
+
+model UserFollows {
+  id           String @id @default(uuid())
+  userId       String
+  userFollowId String
+  followedUser User   @relation(fields: [userFollowId], references: [id], onDelete: Cascade)
+}
+
+model UserFollowers {
+  id             String @id @default(uuid())
+  userId         String
+  userFollowerId String
+  userFollower   User   @relation(fields: [userFollowerId], references: [id], onDelete: Cascade)
 }
