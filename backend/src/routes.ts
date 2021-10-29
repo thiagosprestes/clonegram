@@ -5,6 +5,8 @@ import { PostController } from "./controllers/PostController";
 import { PostLikeController } from "./controllers/PostLikeController";
 import { SessionController } from "./controllers/SessionController";
 import { UserController } from "./controllers/UserController";
+import { UserFollowersController } from "./controllers/UserFollowersController";
+import { UserFollowsController } from "./controllers/UserFollowsController";
 import { sessionMiddleware } from "./middlewares/SessionMiddleware";
 
 export const router = Router();
@@ -58,4 +60,26 @@ router.delete(
   "/posts/likes/:postLikeId",
   sessionMiddleware,
   new PostLikeController().delete
+);
+
+router.post(
+  "/users/:userFollowId",
+  sessionMiddleware,
+  new UserFollowsController().create
+);
+router.get(
+  "/users/:userId/follows",
+  sessionMiddleware,
+  new UserFollowsController().index
+);
+router.delete(
+  "/users/:userId/follows",
+  sessionMiddleware,
+  new UserFollowsController().delete
+);
+
+router.get(
+  "/users/:userId/followers",
+  sessionMiddleware,
+  new UserFollowersController().index
 );
