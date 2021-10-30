@@ -8,8 +8,8 @@ class UserFollowsController {
       const userFollowsModel = prismaClient.userFollows;
       const userModel = prismaClient.user;
 
-      const { userFollowId } = request.body;
-      const { userId } = request.params;
+      const { userFollowId } = request.params;
+      const { userId } = request.body;
 
       const isUserExists = await userModel.findFirst({
         where: { id: userId },
@@ -18,8 +18,29 @@ class UserFollowsController {
       if (!isUserExists)
         return response.status(400).json({ message: "User not exists" });
 
+      const isUserIdEquals = userFollowId === userId;
+
+      if (isUserIdEquals) {
+        return response
+          .status(400)
+          .json({ message: "You cannot folow yourself" });
+      }
+
+      const isAlreadyFollow = await userFollowsModel.findFirst({
+        where: {
+          userFollowId,
+          userId,
+        },
+      });
+
+      if (isAlreadyFollow) {
+        return response
+          .status(400)
+          .json({ message: "You already follow this user" });
+      }
+
       const schema = yup.object().shape({
-        userFollowId: yup.string().required(),
+        userId: yup.string().required(),
       });
 
       await schema.validate(request.body, {
@@ -77,8 +98,25 @@ class UserFollowsController {
       if (!isUserExists)
         return response.status(400).json({ message: "User not exists" });
 
+      const userFollowsItem = await userFollowsModel.findFirst({
+        where: { userFollowId },
+      });
+
+      const isUserFollows = await userFollowsModel.findFirst({
+        where: {
+          userFollowId,
+          userId,
+        },
+      });
+
+      if (!isUserFollows) {
+        return response
+          .status(400)
+          .json({ message: "You not follow this user" });
+      }
+
       await userFollowsModel.delete({
-        where: { id: userFollowId },
+        where: { id: userFollowsItem.id },
       });
 
       return response.status(204).json();
