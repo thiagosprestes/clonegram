@@ -10,4 +10,19 @@ const storage = multer.diskStorage({
   },
 });
 
-export const upload = multer({ storage });
+export const upload = multer({
+  storage,
+  fileFilter: (req, file, cb) => {
+    const isFileValid =
+      path.extname(file.originalname) === ".jpg" ||
+      path.extname(file.originalname) === ".png" ||
+      path.extname(file.originalname) === ".jpeg" ||
+      path.extname(file.originalname) === ".mp4";
+
+    if (!isFileValid) {
+      return cb(new Error("File are not allowed"));
+    }
+
+    return cb(null, true);
+  },
+});
