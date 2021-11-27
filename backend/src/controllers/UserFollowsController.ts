@@ -76,7 +76,7 @@ class UserFollowsController {
 
     const userFollows = await userFollowsModel.findMany({
       where: {
-        userId,
+        userFollowId: userId,
       },
     });
 

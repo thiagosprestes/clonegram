@@ -63,6 +63,51 @@ class PostController {
     const postModel = prismaClient.post;
     const userModel = prismaClient.user;
 
+    const { userId } = request.body;
+
+    const isUserExists = await userModel.findFirst({
+      where: { id: userId },
+    });
+
+    if (!isUserExists)
+      return response.status(400).json({ message: "User not exists" });
+
+    const posts = await postModel.findMany({
+      where: {
+        OR: [
+          {
+            user: {
+              UserFollows: {
+                some: {
+                  userId,
+                },
+              },
+            },
+          },
+          {
+            userId,
+          },
+        ],
+      },
+      include: {
+        user: true,
+        PostFile: true,
+        PostLike: true,
+        PostComment: {
+          select: {
+            comment: true,
+          },
+        },
+      },
+    });
+
+    return response.json(posts);
+  }
+
+  async show(request: Request, response: Response) {
+    const postModel = prismaClient.post;
+    const userModel = prismaClient.user;
+
     const { userId } = request.params;
 
     const isUserExists = await userModel.findFirst({

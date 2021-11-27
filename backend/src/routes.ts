@@ -26,7 +26,8 @@ router.post(
   upload.array("files"),
   new PostController().create
 );
-router.get("/posts/:userId", sessionMiddleware, new PostController().index);
+router.get("/posts", sessionMiddleware, new PostController().index);
+router.get("/posts/:userId", sessionMiddleware, new PostController().show);
 router.put("/posts/:postId", sessionMiddleware, new PostController().update);
 router.delete("/posts/:postId", sessionMiddleware, new PostController().delete);
 

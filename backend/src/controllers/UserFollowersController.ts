@@ -4,7 +4,7 @@ import * as yup from "yup";
 
 class UserFollowersController {
   async index(request: Request, response: Response) {
-    const userFollowersModel = prismaClient.userFollowers;
+    const userFollowsModel = prismaClient.userFollows;
     const userModel = prismaClient.user;
 
     const { userId } = request.params;
@@ -16,7 +16,7 @@ class UserFollowersController {
     if (!isUserExists)
       return response.status(400).json({ message: "User not exists" });
 
-    const userFollowers = await userFollowersModel.findMany({
+    const userFollowers = await userFollowsModel.findMany({
       where: {
         userId,
       },

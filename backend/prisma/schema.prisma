@@ -21,7 +21,6 @@ model User {
   PostComment   PostComment[]
   PostLike      PostLike[]
   UserFollows   UserFollows[]
-  UserFollowers UserFollowers[]
 }
 
 model Profile {
@@ -74,11 +73,4 @@ model UserFollows {
   userId       String
   userFollowId String
   followedUser User   @relation(fields: [userFollowId], references: [id], onDelete: Cascade)
-}
-
-model UserFollowers {
-  id             String @id @default(uuid())
-  userId         String
-  userFollowerId String
-  userFollower   User   @relation(fields: [userFollowerId], references: [id], onDelete: Cascade)
 }
