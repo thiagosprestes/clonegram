@@ -73,7 +73,11 @@ class UserController {
   async index(request: Request, response: Response) {
     const userModel = prismaClient.user;
 
-    const users = await userModel.findMany();
+    const users = await userModel.findMany({
+      include: {
+        profile: true,
+      },
+    });
 
     return response.json(users);
   }

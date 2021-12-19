@@ -45,6 +45,7 @@ class SessionController {
       response.cookie("@clonegram:refresh_token", refreshToken);
 
       return response.json({
+        userId: isUserExists.id,
         username,
         token: authToken,
       });

@@ -46,6 +46,8 @@ class PostLikeController {
 
     const { postId } = request.params;
 
+    const params = request.query;
+
     const isPostExists = await postModel.findFirst({
       where: { id: postId },
     });
@@ -56,6 +58,24 @@ class PostLikeController {
     const postlikes = await postLikeModel.findMany({
       where: {
         postId,
+        user: {
+          username: {
+            mode: "insensitive",
+            contains: params.username as string,
+          },
+        },
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
+        },
       },
     });
 

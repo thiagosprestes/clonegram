@@ -63,7 +63,7 @@ class PostController {
     const postModel = prismaClient.post;
     const userModel = prismaClient.user;
 
-    const { userId } = request.body;
+    const { userId } = request.params;
 
     const isUserExists = await userModel.findFirst({
       where: { id: userId },
@@ -90,7 +90,16 @@ class PostController {
         ],
       },
       include: {
-        user: true,
+        user: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
+        },
         PostFile: true,
         PostLike: true,
         PostComment: {
