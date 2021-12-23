@@ -1,0 +1,16 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "baseUrl": "./src", // all paths are relative to the baseUrl
+    "paths": {
+      "~/*": ["*"] // resolve any `~/foo/bar` to `<baseUrl>/foo/bar`
+    }
+  },
+  "include": [
+    "src",
+    "styled-components.d.ts",
+    "metro.config.js",
+    "declarations.d.ts"
+  ]
+}
