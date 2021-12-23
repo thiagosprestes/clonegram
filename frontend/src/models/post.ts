@@ -1,3 +1,5 @@
+import { Comment } from './comment';
+
 export interface PostResponse {
   id: string;
   location: string;
@@ -5,7 +7,7 @@ export interface PostResponse {
   description: string;
   user: PostUser;
   PostLike: PostLike[];
-  PostComment: [];
+  PostComment: Comment[];
 }
 
 export interface PostUser {

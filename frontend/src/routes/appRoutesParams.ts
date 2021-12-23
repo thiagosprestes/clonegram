@@ -6,4 +6,7 @@ export type AppNavigationRouteParams = {
   [Routes.PostLikes]: {
     postId: string;
   };
+  [Routes.PostComments]: {
+    postId: string;
+  };
 };

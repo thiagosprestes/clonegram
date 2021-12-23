@@ -87,12 +87,19 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     });
   };
 
+  const handleOnGoToComments = (postId: string) => {
+    navigation.navigate(Routes.PostComments, {
+      postId,
+    });
+  };
+
   useEffect(() => {
     handleOnGetPosts();
   }, []);
 
   return (
     <Home
+      onGoToComments={handleOnGoToComments}
       onGoToLikes={handleOnGoToLikes}
       onLikePost={handleOnLikePost}
       onRetry={handleOnGetPosts}

@@ -8,6 +8,7 @@ import { useTheme } from 'styled-components';
 import { removeAuthData } from '~/redux/slices/authSlice';
 import { useDispatch } from 'react-redux';
 import PostLikes from '~/features/App/PostLikes/Screen';
+import PostComments from '~/features/App/PostComments/Screen';
 import { Routes } from './appRoutes';
 import { AntDesign } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -29,6 +30,25 @@ function HomeStackScreen() {
         options={({ navigation }) => ({
           headerShown: true,
           title: 'Curtidas',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.PostComments}
+        component={PostComments}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Comentários',
           headerLeft: () => (
             <AntDesign
               name='arrowleft'

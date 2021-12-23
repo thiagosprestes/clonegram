@@ -15,10 +15,12 @@ import {
 } from 'redux-persist';
 import authReducer from '~/redux/slices/authSlice';
 import feedReducer from '~/redux/slices/feedSlice';
+import postCommentsReducer from '~/redux/slices/postCommentsSlice';
 
 const reducers = combineReducers({
   authReducer,
   feedReducer,
+  postCommentsReducer,
 });
 
 const persistConfig = {

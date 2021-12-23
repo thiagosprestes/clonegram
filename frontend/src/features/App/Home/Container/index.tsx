@@ -9,6 +9,7 @@ import Header from './components/Header';
 import { Container } from './styles';
 
 interface HomeProps {
+  onGoToComments: (postId: string) => void;
   onGoToLikes: (postId: string) => void;
   onLikePost: (postId: string) => void;
   onRetry: () => void;
@@ -18,6 +19,7 @@ interface HomeProps {
 }
 
 const Home = ({
+  onGoToComments,
   onGoToLikes,
   onLikePost,
   onRetry,
@@ -39,6 +41,7 @@ const Home = ({
               files={item.PostFile}
               likes={item.PostLike}
               location=''
+              onGoToComments={onGoToComments}
               onGoToLikes={onGoToLikes}
               onLikePost={onLikePost}
               postId={item.id}

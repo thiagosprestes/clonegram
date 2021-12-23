@@ -29,21 +29,23 @@ import {
 
 import Heart from '~/assets/icons/Heart.svg';
 import RedHeart from '~/assets/icons/RedHeart.svg';
-import Comment from '~/assets/icons/Comment.svg';
+import CommentIcon from '~/assets/icons/Comment.svg';
 import ScrollIndicator from '../ScrollIndicator';
 import { api } from '~/services/api';
 import { PostFile, PostLike } from '~/models/post';
 import AnimatedLottieView from 'lottie-react-native';
 
 import like from '~/assets/animations/like.json';
+import { Comment } from '~/models/comment';
 
 interface PostProps {
-  comments: [];
+  comments: Comment[];
   description: string;
   files: PostFile[];
   username: string;
   likes: PostLike[];
   location: string;
+  onGoToComments: (postId: string) => void;
   onGoToLikes: (postId: string) => void;
   onLikePost: (postId: string) => void;
   postId: string;
@@ -58,6 +60,7 @@ const Post = ({
   username,
   likes,
   location,
+  onGoToComments,
   onGoToLikes,
   onLikePost,
   postId,
@@ -165,8 +168,11 @@ const Post = ({
                 )}
               </TouchableWithoutFeedback>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <Comment width={25} height={25} />
+            <TouchableOpacity
+              style={{ marginLeft: 5 }}
+              onPress={() => onGoToComments(postId)}
+            >
+              <CommentIcon width={25} height={25} />
             </TouchableOpacity>
           </Icons>
           {files.length > 1 && (
@@ -195,7 +201,7 @@ const Post = ({
         {comments.length > 0 && (
           <Comments>
             <Text color={colors.inputText}>
-              Ver todos os {comments} comentários
+              Ver todos os {comments.length} comentários
             </Text>
           </Comments>
         )}
