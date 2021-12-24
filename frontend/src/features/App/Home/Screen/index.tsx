@@ -93,6 +93,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     });
   };
 
+  const handleOnRefresh = () => {
+    handleOnGetPosts();
+  };
+
   useEffect(() => {
     handleOnGetPosts();
   }, []);
@@ -102,6 +106,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       onGoToComments={handleOnGoToComments}
       onGoToLikes={handleOnGoToLikes}
       onLikePost={handleOnLikePost}
+      onRefresh={handleOnRefresh}
       onRetry={handleOnGetPosts}
       posts={posts}
       state={state}

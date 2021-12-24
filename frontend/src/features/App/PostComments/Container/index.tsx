@@ -13,9 +13,6 @@ import {
   UserPicture,
 } from './styles';
 import { Comment } from '~/models/comment';
-import Text, { TextType } from '~/components/Text';
-
-import sample from '~/assets/sample.jpg';
 
 interface HomeProps {
   comment: string;

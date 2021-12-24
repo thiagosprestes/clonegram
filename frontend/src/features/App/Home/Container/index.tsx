@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text } from 'react-native';
+import { FlatList, RefreshControl, Text } from 'react-native';
 import Error from '~/components/Error';
 import Loading from '~/components/Loading';
 import Post from '~/components/Post';
@@ -13,6 +13,7 @@ interface HomeProps {
   onGoToLikes: (postId: string) => void;
   onLikePost: (postId: string) => void;
   onRetry: () => void;
+  onRefresh: () => void;
   posts: PostResponse[];
   state: States;
   userId: string;
@@ -23,6 +24,7 @@ const Home = ({
   onGoToLikes,
   onLikePost,
   onRetry,
+  onRefresh,
   posts,
   state,
   userId,
@@ -31,6 +33,9 @@ const Home = ({
     <>
       {posts && (
         <FlatList
+          refreshControl={
+            <RefreshControl refreshing={false} onRefresh={onRefresh} />
+          }
           data={posts}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
