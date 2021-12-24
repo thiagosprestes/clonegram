@@ -1,6 +1,7 @@
 import styled from 'styled-components/native';
 import { colors, fonts } from '~/styleguide';
 import Text from '~/components/Text';
+import ImageComponent from '~/components/Image';
 
 interface SendCommentTextProps {
   isDisabled: boolean;
@@ -23,12 +24,10 @@ export const Input = styled.TextInput`
 export const AddCommentContainer = styled.View`
   flex-direction: row;
   align-items: center;
-  padding: 5px;
+  padding: 5px 15px;
 `;
 
-export const UserPicture = styled.Image`
-  height: 50px;
-  width: 50px;
+export const UserPicture = styled(ImageComponent)`
   border-radius: 50px;
   margin-right: 10px;
 `;
@@ -39,5 +38,3 @@ export const SendCommentText = styled(Text)<SendCommentTextProps>`
   color: ${colors.blue};
   opacity: ${(props) => (props.isDisabled ? 0.6 : 1)};
 `;
-
-export const PostDescription = styled.Text``;

@@ -1,33 +1,25 @@
 import styled from 'styled-components/native';
+import ImageComponent from '~/components/Image';
 import Text from '~/components/Text';
 import { colors } from '~/styleguide';
 
-export const Container = styled.View`
-  background-color: ${(props) => props.theme.colors.primary};
+interface CommentItemProps {
+  isDescription: boolean;
+}
+
+export const Container = styled.View<CommentItemProps>`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
+  padding: 16px;
+  border-bottom-width: ${(props) => (props.isDescription ? 1 : 0)}px;
+  border-bottom-color: ${colors.lightGrey};
 `;
 
-export const UserPicture = styled.Image`
-  width: 50px;
-  height: 50px;
-  margin-right: 10px;
+export const PostUserProfilePicture = styled(ImageComponent)`
   border-radius: 50px;
 `;
 
-export const Username = styled(Text)``;
-
-export const Follow = styled.TouchableOpacity`
-  margin-left: auto;
-  background-color: ${colors.blue};
-  padding: 6px 24px;
-  border-radius: 4px;
-`;
-
-export const Following = styled.TouchableOpacity`
-  margin-left: auto;
-  background-color: ${colors.white};
-  padding: 6px 24px;
-  border-radius: 4px;
-  border: 1px solid ${colors.darkGreyText};
+export const Description = styled(Text)`
+  flex: 1;
+  margin-left: 3px;
 `;

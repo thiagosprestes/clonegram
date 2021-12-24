@@ -21,7 +21,10 @@ const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
 
   const postId = route.params?.postId;
 
-  const userId = useAppSelector((state) => state.authReducer.userId);
+  const { userId, userProfilePicture } = useAppSelector(
+    (state) => state.authReducer
+  );
+
   const comments = useAppSelector(
     (state) => state.postCommentsReducer.comments
   );
@@ -80,8 +83,10 @@ const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
       onAddComment={handleOnAddComment}
       onChangeComment={handleOnChangeComment}
       onRetry={handleOnGetComments}
+      loggedUserProfilePicture={userProfilePicture}
       postDescription={post?.description!}
       postUsername={post?.user.username!}
+      postUserProfilePicture={post?.user.profile.profile_picture!}
       state={state}
     />
   );

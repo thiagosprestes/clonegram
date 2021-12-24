@@ -8,7 +8,6 @@ import {
   AddCommentContainer,
   Container,
   Input,
-  PostDescription,
   SendComment,
   SendCommentText,
   UserPicture,
@@ -24,8 +23,10 @@ interface HomeProps {
   onAddComment: () => void;
   onChangeComment: (search: string) => void;
   onRetry: () => void;
+  loggedUserProfilePicture: string;
   postDescription: string;
   postUsername: string;
+  postUserProfilePicture: string;
   state: States;
 }
 
@@ -35,25 +36,36 @@ const PostComments = ({
   onAddComment,
   onChangeComment,
   onRetry,
+  loggedUserProfilePicture,
   postDescription,
   postUsername,
+  postUserProfilePicture,
   state,
 }: HomeProps) => {
   const content = (
     <>
-      <PostDescription>
-        <Text type={TextType.bold}>{postUsername}</Text> {postDescription}
-      </PostDescription>
       <FlatList
         data={comments}
         keyExtractor={(item) => item.id}
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={
+          <PostCommentItem
+            comment={postDescription}
+            isDescription
+            username={postUsername}
+            userPicture={postUserProfilePicture}
+          />
+        }
         renderItem={({ item }: { item: Comment }) => (
-          <PostCommentItem username='a' userPicture='b' />
+          <PostCommentItem
+            comment={item.comment}
+            username={item.user.username}
+            userPicture={item.user.profile.profile_picture}
+          />
         )}
       />
       <AddCommentContainer>
-        <UserPicture source={sample} />
+        <UserPicture imageSource={loggedUserProfilePicture} size={30} />
         <Input
           value={comment}
           placeholder='Comentar'

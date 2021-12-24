@@ -1,6 +1,5 @@
 import styled from 'styled-components/native';
 import { StatusBar } from 'react-native';
-import { colors } from '~/styleguide';
 
 export const Container = styled.View`
   background-color: ${(props) => props.theme.colors.primary};
@@ -8,6 +7,7 @@ export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin-top: ${StatusBar.currentHeight}px;
 `;
 
 export const Logo = styled.Image`

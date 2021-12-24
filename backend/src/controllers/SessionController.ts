@@ -25,6 +25,13 @@ class SessionController {
         where: {
           username,
         },
+        include: {
+          profile: {
+            select: {
+              profile_picture: true,
+            },
+          },
+        },
       });
 
       if (!isUserExists)
@@ -47,6 +54,7 @@ class SessionController {
       return response.json({
         userId: isUserExists.id,
         username,
+        userProfilePicture: isUserExists.profile.profile_picture,
         token: authToken,
       });
     } catch (error) {

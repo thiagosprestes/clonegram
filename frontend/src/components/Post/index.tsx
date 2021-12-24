@@ -200,7 +200,10 @@ const Post = ({
         )}
         {comments.length > 0 && (
           <Comments>
-            <Text color={colors.inputText}>
+            <Text
+              color={colors.inputText}
+              onPress={() => onGoToComments(postId)}
+            >
               Ver todos os {comments.length} comentários
             </Text>
           </Comments>

@@ -1,22 +1,27 @@
 import React from 'react';
-import { Container, Username, UserPicture } from './styles';
-import { TextType } from '~/components/Text';
-import { api } from '~/services/api';
+import { Container, Description, PostUserProfilePicture } from './styles';
+import Text, { TextType } from '~/components/Text';
 
 interface PostCommentItem {
+  comment: string;
+  isDescription?: boolean;
   username: string;
   userPicture: string;
 }
 
-const PostCommentItem = ({ username, userPicture }: PostCommentItem) => {
+const PostCommentItem = ({
+  comment,
+  isDescription,
+  username,
+  userPicture,
+}: PostCommentItem) => {
   return (
-    <Container>
-      <UserPicture
-        source={{ uri: `${api.defaults.baseURL}/images/${userPicture}` }}
-      />
-      <Username type={TextType.bold} size={16}>
+    <Container isDescription={isDescription ?? false}>
+      <PostUserProfilePicture imageSource={userPicture} size={30} />
+      <Text type={TextType.bold} size={12} style={{ marginLeft: 6 }}>
         {username}
-      </Username>
+      </Text>
+      <Description size={12}>{comment}</Description>
     </Container>
   );
 };

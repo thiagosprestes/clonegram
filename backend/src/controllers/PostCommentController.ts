@@ -27,7 +27,7 @@ class PostCommentController {
         abortEarly: false,
       });
 
-      const result = await postCommentModel.create({
+      const createComment = await postCommentModel.create({
         data: {
           postId,
           userId,
@@ -35,7 +35,25 @@ class PostCommentController {
         },
       });
 
-      return response.json(result);
+      const newComment = await postCommentModel.findFirst({
+        where: {
+          id: createComment.id,
+        },
+        include: {
+          user: {
+            select: {
+              username: true,
+              profile: {
+                select: {
+                  profile_picture: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      return response.json(newComment);
     } catch (error) {
       console.log(error);
       return response
@@ -60,6 +78,18 @@ class PostCommentController {
     const postComments = await postCommentModel.findMany({
       where: {
         postId,
+      },
+      include: {
+        user: {
+          select: {
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
+        },
       },
     });
 
