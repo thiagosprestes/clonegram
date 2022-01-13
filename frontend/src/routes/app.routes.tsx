@@ -12,6 +12,7 @@ import PostComments from '~/features/App/PostComments/Screen';
 import { Routes } from './appRoutes';
 import { AntDesign } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Profile from '~/features/App/Profile/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -97,6 +98,15 @@ const AppRoutes = () => {
                 height={30}
                 onPress={() => dispatch(removeAuthData())}
               />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name={Routes.Profile}
+          component={Profile}
+          options={{
+            tabBarIcon: () => (
+              <AntDesign name='profile' width={30} height={30} />
             ),
           }}
         />
