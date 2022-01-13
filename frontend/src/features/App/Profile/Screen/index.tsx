@@ -34,49 +34,6 @@ const ProfileScreen = ({ route }: ProfileScreenProps) => {
     state.feedReducer.posts.find((post) => post.id === postId)
   );
 
-  const dispatch = useDispatch();
-
-  const handleOnGetComments = async () => {
-    setState(States.loading);
-
-    try {
-      const { data } = await api.get(`/posts/${postId}/comments`);
-
-      dispatch(storeCommentsList(data));
-
-      setState(States.default);
-    } catch (error: any) {
-      console.log(error.response);
-      setState(States.error);
-    }
-  };
-
-  const handleOnChangeComment = (value: string) => {
-    setComment(value);
-  };
-
-  const handleOnAddComment = async () => {
-    try {
-      const { data } = await api.post(`/posts/${postId}`, {
-        userId,
-        comment,
-      });
-
-      dispatch(addComment(data));
-
-      setComment('');
-
-      setState(States.default);
-    } catch (error: any) {
-      console.log(error.response);
-      setState(States.error);
-    }
-  };
-
-  useEffect(() => {
-    handleOnGetComments();
-  }, []);
-
   return <Profile />;
 };
 

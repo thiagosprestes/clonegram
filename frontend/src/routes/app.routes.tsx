@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 import PostLikes from '~/features/App/PostLikes/Screen';
 import PostComments from '~/features/App/PostComments/Screen';
 import { Routes } from './appRoutes';
-import { AntDesign } from '@expo/vector-icons';
+import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from '~/features/App/Profile/Screen';
 
@@ -106,7 +106,7 @@ const AppRoutes = () => {
           component={Profile}
           options={{
             tabBarIcon: () => (
-              <AntDesign name='profile' width={30} height={30} />
+              <Ionicons name='person-circle-outline' size={35} color='black' />
             ),
           }}
         />
