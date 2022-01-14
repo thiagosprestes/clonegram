@@ -29,7 +29,7 @@ router.get("/users", sessionMiddleware, new UserController().index);
 router.get("/user/:id", sessionMiddleware, new UserController().show);
 
 router.get("/feed/:userId", sessionMiddleware, new PostController().index);
-router.get("/posts/:userId", sessionMiddleware, new PostController().show);
+router.get("/post/:postId", sessionMiddleware, new PostController().show);
 router.put("/posts/:postId", sessionMiddleware, new PostController().update);
 router.delete("/posts/:postId", sessionMiddleware, new PostController().delete);
 

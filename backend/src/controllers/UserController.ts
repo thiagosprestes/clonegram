@@ -98,12 +98,16 @@ class UserController {
         },
         Post: {
           select: {
+            id: true,
             PostFile: {
               select: {
                 id: true,
                 filename: true,
               },
             },
+          },
+          orderBy: {
+            createdAt: "desc",
           },
         },
       },

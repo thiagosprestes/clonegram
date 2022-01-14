@@ -92,6 +92,42 @@ class PostController {
       include: {
         user: {
           select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
+        },
+        PostFile: true,
+        PostLike: true,
+        PostComment: {
+          select: {
+            comment: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return response.json(posts);
+  }
+
+  async show(request: Request, response: Response) {
+    const postModel = prismaClient.post;
+
+    const { postId } = request.params;
+
+    const post = await postModel.findFirst({
+      where: { id: postId },
+      include: {
+        user: {
+          select: {
+            id: true,
             username: true,
             profile: {
               select: {
@@ -110,29 +146,9 @@ class PostController {
       },
     });
 
-    return response.json(posts);
-  }
+    if (!post) return response.status(400).json({ message: "Post not exists" });
 
-  async show(request: Request, response: Response) {
-    const postModel = prismaClient.post;
-    const userModel = prismaClient.user;
-
-    const { userId } = request.params;
-
-    const isUserExists = await userModel.findFirst({
-      where: { id: userId },
-    });
-
-    if (!isUserExists)
-      return response.status(400).json({ message: "User not exists" });
-
-    const posts = await postModel.findMany({
-      where: {
-        userId,
-      },
-    });
-
-    return response.json(posts);
+    return response.json(post);
   }
 
   async update(request: Request, response: Response) {
