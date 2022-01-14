@@ -10,8 +10,7 @@ interface OptionProps {
 export const Container = styled(SafeAreaView)``;
 
 export const Header = styled.View`
-  margin-bottom: 25px;
-  padding: 20px 20px 0;
+  padding: 12px 20px;
 `;
 
 export const Username = styled(Text)``;
@@ -27,4 +26,12 @@ export const Option = styled.View<OptionProps>`
   padding: 10px 0px;
   border-bottom-width: ${(props) => (props.isSelected ? '2px' : '0px')};
   border-color: ${colors.black};
+`;
+
+export const Posts = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  border-top-color: ${colors.lightGrey};
+  border-top-width: 1px;
 `;

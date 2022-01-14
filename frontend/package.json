@@ -4,7 +4,9 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "storybook": "start-storybook -p 7007 -h 192.168.0.108",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "@expo-google-fonts/roboto": "^0.2.0",
@@ -40,6 +42,13 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@storybook/addon-actions": "^5.3",
+    "@storybook/addon-knobs": "^5.3",
+    "@storybook/addon-links": "^5.3",
+    "@storybook/addon-ondevice-actions": "^5.3.23",
+    "@storybook/addon-ondevice-knobs": "^5.3.25",
+    "@storybook/react-native": "^5.3.25",
+    "@storybook/react-native-server": "^5.3.23",
     "@types/jest": "^27.4.0",
     "@types/react": "^17.0.38",
     "@types/react-native": "^0.66.11",
@@ -50,6 +59,7 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.2.3",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "^19.0.0",
     "eslint-config-prettier": "^8.3.0",

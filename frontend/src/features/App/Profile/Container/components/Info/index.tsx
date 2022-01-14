@@ -1,15 +1,23 @@
 import React from 'react';
 import { TextType } from '~/components/Text';
+import { api } from '~/services/api';
 import { colors } from '~/styleguide';
 
 import { Column, Container, Label, Picture, Row, Value } from './styles';
 
 interface ValueAndLabelProps {
-  value: string;
+  value: string | number;
   label: string;
 }
 
-const Info: React.FC = () => {
+interface InfoProps {
+  followers: number;
+  following: number;
+  posts: number;
+  profilePicture: string;
+}
+
+const Info = ({ followers, following, posts, profilePicture }: InfoProps) => {
   const ValueAndLabel = ({ value, label }: ValueAndLabelProps) => (
     <Column>
       <Value type={TextType.bold} size={20}>
@@ -24,13 +32,13 @@ const Info: React.FC = () => {
       <Row>
         <Picture
           source={{
-            uri: 'https://i2.wp.com/sociedadejedi.com.br/wp-content/uploads/2019/11/mandalorian6.jpeg?fit=700%2C394&ssl=1',
+            uri: `${api.defaults.baseURL}/images/${profilePicture}`,
           }}
         />
         <Row>
-          <ValueAndLabel value='12345' label='Publicações' />
-          <ValueAndLabel value='12345' label='Seguidores' />
-          <ValueAndLabel value='12345' label='Seguindo' />
+          <ValueAndLabel value={posts} label='Publicações' />
+          <ValueAndLabel value={followers} label='Seguidores' />
+          <ValueAndLabel value={following} label='Seguindo' />
         </Row>
       </Row>
     </Container>

@@ -1,29 +1,43 @@
 import React from 'react';
-import { View } from 'react-native';
 import Button, { ButtonType } from '~/components/Button';
 import { TextType } from '~/components/Text';
+import { useAppSelector } from '~/hooks/redux';
 
 import { ButtonsContainer, Container, Description, Name } from './styles';
 
-const Bio: React.FC = () => {
+interface BioProps {
+  bio?: string;
+  name: string;
+  onFollow: (userId: string) => void;
+  onGoToUpdate: (userId: string) => void;
+  userId: string;
+}
+
+const Bio = ({ bio, name, onFollow, onGoToUpdate, userId }: BioProps) => {
+  const authenticatedUserId = useAppSelector(
+    (state) => state.authReducer.userId
+  );
+
   return (
     <Container>
       <Name type={TextType.bold} size={16}>
-        Teste
+        {name}
       </Name>
-      <Description>VRAU</Description>
+      {bio && <Description>{bio}</Description>}
       <ButtonsContainer>
-        <Button
-          text='Seguir'
-          onPress={() => undefined}
-          type={ButtonType.primary}
-        />
-        <View style={{ marginRight: 12 }} />
-        <Button
-          text='Mensagem'
-          onPress={() => undefined}
-          type={ButtonType.secondary}
-        />
+        {userId !== authenticatedUserId ? (
+          <Button
+            text='Seguir'
+            onPress={() => onFollow(userId)}
+            type={ButtonType.primary}
+          />
+        ) : (
+          <Button
+            text='Editar perfil'
+            onPress={() => onGoToUpdate(userId)}
+            type={ButtonType.secondary}
+          />
+        )}
       </ButtonsContainer>
     </Container>
   );

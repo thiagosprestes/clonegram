@@ -23,10 +23,6 @@ export interface PostFile {
   filename: string;
 }
 
-export interface UserProfile {
-  profile_picture: string;
-}
-
 export interface PostLike {
   id: string;
   postId: string;

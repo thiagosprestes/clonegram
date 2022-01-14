@@ -7,19 +7,20 @@ import {
   addComment,
   storeCommentsList,
 } from '~/redux/slices/postCommentsSlice';
+import { Routes } from '~/routes/appRoutes';
 import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 import PostComments from '../Container';
 
 interface PostCommentsScreenProps {
-  route: RouteProp<AppNavigationRouteParams>;
+  route: RouteProp<AppNavigationRouteParams, Routes.PostComments>;
 }
 
 const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
   const [state, setState] = useState(States.loading);
   const [comment, setComment] = useState('');
 
-  const postId = route.params?.postId;
+  const { postId } = route.params;
 
   const { userId, userProfilePicture } = useAppSelector(
     (state) => state.authReducer

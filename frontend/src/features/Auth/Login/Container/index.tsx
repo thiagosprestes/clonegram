@@ -81,7 +81,6 @@ const Login = function ({
           secureTextEntry
           placeholderTextColor={theme.colors.inputText}
           onChangeText={(text) => setPassword(text)}
-          showSoftInputOnFocus={false}
         />
         <LoginButton
           disabled={username === '' || password === ''}
