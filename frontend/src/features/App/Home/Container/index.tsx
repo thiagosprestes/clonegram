@@ -1,5 +1,6 @@
 import React from 'react';
-import { FlatList, RefreshControl, Text } from 'react-native';
+import { FlatList, RefreshControl } from 'react-native';
+import EmptyContent from '~/components/EmptyContent';
 import Error from '~/components/Error';
 import Loading from '~/components/Loading';
 import Post from '~/components/Post';
@@ -9,8 +10,10 @@ import Header from './components/Header';
 import { Container } from './styles';
 
 interface HomeProps {
+  onDeletePost: (postId: string) => void;
   onGoToComments: (postId: string) => void;
   onGoToLikes: (postId: string) => void;
+  onGoToUserProfile: (userId: string) => void;
   onLikePost: (postId: string) => void;
   onRetry: () => void;
   onRefresh: () => void;
@@ -20,8 +23,10 @@ interface HomeProps {
 }
 
 const Home = ({
+  onDeletePost,
   onGoToComments,
   onGoToLikes,
+  onGoToUserProfile,
   onLikePost,
   onRetry,
   onRefresh,
@@ -31,32 +36,38 @@ const Home = ({
 }: HomeProps) => {
   const content = (
     <>
-      {posts && (
-        <FlatList
-          refreshControl={
-            <RefreshControl refreshing={false} onRefresh={onRefresh} />
-          }
-          data={posts}
-          keyExtractor={(item) => item.id}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
-            <Post
-              comments={item.PostComment}
-              description={item.description}
-              files={item.PostFile}
-              likes={item.PostLike}
-              location=''
-              onGoToComments={onGoToComments}
-              onGoToLikes={onGoToLikes}
-              onLikePost={onLikePost}
-              postId={item.id}
-              userId={userId}
-              username={item.user.username}
-              userProfilePicture={item.user.profile.profile_picture}
-            />
-          )}
-        />
-      )}
+      {posts &&
+        (posts.length > 0 ? (
+          <FlatList
+            refreshControl={
+              <RefreshControl refreshing={false} onRefresh={onRefresh} />
+            }
+            data={posts}
+            keyExtractor={(item) => item.id}
+            showsVerticalScrollIndicator={false}
+            renderItem={({ item }) => (
+              <Post
+                commentsNumber={item.PostComment.length}
+                description={item.description}
+                files={item.PostFile}
+                likes={item.PostLike}
+                location=''
+                onDeletePost={onDeletePost}
+                onGoToComments={onGoToComments}
+                onGoToLikes={onGoToLikes}
+                onGoToUserProfile={onGoToUserProfile}
+                onLikePost={onLikePost}
+                postAuthorId={item.user.id}
+                postId={item.id}
+                userId={userId}
+                username={item.user.username}
+                userProfilePicture={item.user.profile.profile_picture}
+              />
+            )}
+          />
+        ) : (
+          <EmptyContent text='Nenhuma postagem foi encontrada!' />
+        ))}
     </>
   );
 

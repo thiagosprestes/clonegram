@@ -33,9 +33,15 @@ export const feedSlice = createSlice({
         ),
       }));
     },
+    deletePost: (state, action) => {
+      state.posts = state.posts.filter(
+        (post) => post.id !== action.payload.postId
+      );
+    },
   },
 });
 
-export const { deleteLike, likePost, storeFeedPosts } = feedSlice.actions;
+export const { deleteLike, likePost, storeFeedPosts, deletePost } =
+  feedSlice.actions;
 
 export default feedSlice.reducer;

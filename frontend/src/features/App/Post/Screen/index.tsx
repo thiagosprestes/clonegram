@@ -1,10 +1,10 @@
-import { useFocusEffect } from '@react-navigation/native';
+import { RouteProp } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Home from '~/features/App/Home/Container';
 import { useAppSelector } from '~/hooks/redux';
-import { PostResponse } from '~/models/post';
+import { PostLike, PostResponse, PostUser } from '~/models/post';
 import { States } from '~/models/states';
 import {
   deleteLike,
@@ -15,30 +15,38 @@ import {
 import { Routes } from '~/routes/appRoutes';
 import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
+import Post from '../Container';
 
-interface HomeScreenProps {
-  navigation: NativeStackNavigationProp<
-    AppNavigationRouteParams,
-    Routes.ProfileStack
-  >;
+interface PostScreenProps {
+  navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
+  route: RouteProp<AppNavigationRouteParams, Routes.Post>;
 }
 
-const HomeScreen = ({ navigation }: HomeScreenProps) => {
+const PostScreen = ({ navigation, route }: PostScreenProps) => {
   const [state, setState] = useState(States.loading);
-
-  const posts = useAppSelector((state) => state.feedReducer.posts);
-
-  const dispatch = useDispatch();
+  const [post, setPost] = useState<PostResponse>({} as PostResponse);
+  const [postUser, setPostUser] = useState<PostUser>({} as PostUser);
+  const [postUserProfile, setPostUserProfile] = useState<UserProfile>(
+    {} as UserProfile
+  );
+  const [postLikes, setPostLikes] = useState<PostLike[]>({} as PostLike[]);
 
   const userId = useAppSelector((state) => state.authReducer.userId);
 
-  const handleOnGetPosts = async () => {
+  const { postId } = route.params;
+
+  const dispatch = useDispatch();
+
+  const handleOnGetPost = async () => {
     setState(States.loading);
 
     try {
-      const response = await api.get<PostResponse[]>(`/feed/${userId}`);
+      const { data } = await api.get<PostResponse>(`/post/${postId}`);
 
-      dispatch(storeFeedPosts(response.data));
+      setPost(data);
+      setPostUser(data.user);
+      setPostUserProfile(data.user.profile);
+      setPostLikes(data.PostLike);
 
       setState(States.default);
     } catch (error: any) {
@@ -49,16 +57,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   const handleOnLikePost = async (postId: string) => {
     try {
-      const findPostLike = posts.find((post) =>
-        post.PostLike.find((like) => like.userId === userId)
-      );
+      const findPostLike = postLikes.find((like) => like.userId === userId);
 
       if (findPostLike) {
-        const foundedLike = findPostLike.PostLike.find(
-          (like) => like.userId === userId
-        );
-
-        await handleOnDeleteLike(findPostLike.id, foundedLike?.id);
+        await handleOnDeleteLike(findPostLike.id);
 
         return;
       }
@@ -69,20 +71,21 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
       dispatch(likePost(data));
 
+      setPostLikes([...postLikes, data]);
+
       setState(States.default);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleOnDeleteLike = async (
-    postId: string,
-    likeId: string | undefined
-  ) => {
+  const handleOnDeleteLike = async (likeId: string | undefined) => {
     try {
       await api.delete(`/posts/likes/${likeId}`);
 
       dispatch(deleteLike({ postId, likeId }));
+
+      setPostLikes(postLikes.filter((like) => like.id !== likeId));
 
       setState(States.default);
     } catch (error) {
@@ -102,10 +105,6 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     });
   };
 
-  const handleOnRefresh = () => {
-    handleOnGetPosts();
-  };
-
   const handleOnDeletePost = async (postId: string) => {
     try {
       setState(States.loading);
@@ -113,44 +112,36 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       await api.delete(`/posts/${postId}`);
 
       dispatch(deletePost(postId));
-
-      setState(States.default);
+      navigation.goBack();
     } catch (error) {
       console.log(error);
     }
   };
 
-  const handleOnGoToUserProfile = (userId: string) => {
-    // navigation.replace(Routes.ProfileStack, {
-    //   screen: Routes.Profile,
-    // });
-
-    navigation.navigate(Routes.ProfileStack, {
-      screen: Routes.Profile,
-      params: { userId },
-    });
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      handleOnGetPosts();
-    }, [])
-  );
+  useEffect(() => {
+    handleOnGetPost();
+  }, []);
 
   return (
-    <Home
+    <Post
+      commentsNumber={post.PostComment?.length}
+      files={post.PostFile}
+      likes={postLikes}
+      location={post.location}
       onDeletePost={handleOnDeletePost}
       onGoToComments={handleOnGoToComments}
       onGoToLikes={handleOnGoToLikes}
-      onGoToUserProfile={handleOnGoToUserProfile}
       onLikePost={handleOnLikePost}
-      onRefresh={handleOnRefresh}
-      onRetry={handleOnGetPosts}
-      posts={posts}
+      onRefresh={handleOnGetPost}
+      onRetry={handleOnGetPost}
+      postAuthorId={postUser.id}
+      postId={post.id}
       state={state}
       userId={userId}
+      username={postUser.username}
+      userProfilePicture={postUserProfile.profile_picture}
     />
   );
 };
 
-export default HomeScreen;
+export default PostScreen;

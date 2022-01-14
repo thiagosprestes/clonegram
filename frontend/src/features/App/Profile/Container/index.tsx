@@ -9,6 +9,7 @@ import {
   Image,
   RefreshControl,
   ScrollView,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { States } from '~/models/states';
@@ -16,6 +17,7 @@ import Loading from '~/components/Loading';
 import Error from '~/components/Error';
 import { PostResponse } from '~/models/post';
 import { api } from '~/services/api';
+import EmptyContent from '~/components/EmptyContent';
 
 interface ProfilePostOption {
   icon: React.ReactNode;
@@ -28,6 +30,7 @@ interface ProfileProps {
   followingNumber: number;
   postsNumber: number;
   profilePicture: string;
+  onGoToPost: (postId: string) => void;
   posts: PostResponse[];
   onRetry: () => void;
   state: States;
@@ -42,6 +45,7 @@ const Profile = ({
   postsNumber,
   posts,
   profilePicture,
+  onGoToPost,
   onRetry,
   state,
   username,
@@ -75,14 +79,23 @@ const Profile = ({
           userId={userId}
         />
         <Posts>
-          {posts.map((post) => (
-            <Image
-              source={{
-                uri: `${api.defaults.baseURL}/images/${post.PostFile[0].filename}`,
-              }}
-              style={{ width: width / 3, height: width / 3 }}
-            />
-          ))}
+          {posts.length > 0 ? (
+            posts.map((post) => (
+              <TouchableOpacity
+                key={post.id}
+                onPress={() => onGoToPost(post.id)}
+              >
+                <Image
+                  source={{
+                    uri: `${api.defaults.baseURL}/images/${post.PostFile[0].filename}`,
+                  }}
+                  style={{ width: width / 3, height: width / 3 }}
+                />
+              </TouchableOpacity>
+            ))
+          ) : (
+            <EmptyContent text='Nenhuma postagem foi encontrada!' />
+          )}
         </Posts>
       </ScrollView>
     </>

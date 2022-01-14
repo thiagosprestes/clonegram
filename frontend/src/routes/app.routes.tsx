@@ -13,6 +13,7 @@ import { Routes } from './appRoutes';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Profile from '~/features/App/Profile/Screen';
+import Post from '~/features/App/Post/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -67,6 +68,43 @@ function HomeStackScreen() {
   );
 }
 
+function ProfileStackScreen() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerShown: false,
+      }}
+    >
+      <HomeStack.Screen
+        name={Routes.Profile}
+        component={Profile}
+        initialParams={{ userId: '951b1bea-ba43-45c1-b52d-89416d8fbbe5' }}
+      />
+      <HomeStack.Screen
+        name={Routes.Post}
+        component={Post}
+        options={({ navigation }) => ({
+          title: 'Publicações',
+          headerShown: true,
+
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
 const Tab = createBottomTabNavigator();
 
 const AppRoutes = () => {
@@ -102,8 +140,8 @@ const AppRoutes = () => {
           }}
         />
         <Tab.Screen
-          name={Routes.Profile}
-          component={Profile}
+          name={Routes.ProfileStack}
+          component={ProfileStackScreen}
           options={{
             tabBarIcon: () => (
               <Ionicons name='person-circle-outline' size={35} color='black' />

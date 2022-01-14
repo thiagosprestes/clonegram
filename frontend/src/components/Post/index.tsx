@@ -12,16 +12,23 @@ import { useTheme } from 'styled-components';
 import Carousel from 'react-native-snap-carousel';
 import Text, { TextType } from '../Text';
 import {
+  Buttons,
+  Cancel,
   Comments,
   Container,
   Content,
+  Delete,
+  DeletePostModal,
   Description,
   Header,
   Icons,
   Info,
   LikeHeartContainer,
+  ModalBody,
+  ModalTitle,
   Options,
   Picture,
+  Separator,
   SlidePositionNumber,
   User,
   UserInfo,
@@ -37,32 +44,39 @@ import AnimatedLottieView from 'lottie-react-native';
 
 import like from '~/assets/animations/like.json';
 import { Comment } from '~/models/comment';
+import Modal from '../Modal';
 
 interface PostProps {
-  comments: Comment[];
-  description: string;
+  commentsNumber: number;
+  description?: string;
   files: PostFile[];
   username: string;
   likes: PostLike[];
-  location: string;
+  location?: string;
+  onDeletePost: (postId: string) => void;
   onGoToComments: (postId: string) => void;
+  onGoToUserProfile: (userId: string) => void;
   onGoToLikes: (postId: string) => void;
   onLikePost: (postId: string) => void;
+  postAuthorId: string;
   postId: string;
   userProfilePicture: string;
   userId: string;
 }
 
 const Post = ({
-  comments,
+  commentsNumber,
   description,
   files,
   username,
   likes,
   location,
+  onDeletePost,
   onGoToComments,
+  onGoToUserProfile,
   onGoToLikes,
   onLikePost,
+  postAuthorId,
   postId,
   userProfilePicture,
   userId,
@@ -72,8 +86,8 @@ const Post = ({
   const [carouselPosition, setCarouselPosition] = useState(1);
   const [numberOfLines, setNumberOfLines] = useState<number | undefined>(3);
   const [lastContentTap, setLastContentTap] = useState<number>();
-
   const [likeAnimation, setLikeAnimation] = useState(false);
+  const [isShowDeletPostModal, setIsShowDeletPostModal] = useState(false);
 
   const { width: viewportWidth } = Dimensions.get('window');
 
@@ -104,7 +118,7 @@ const Post = ({
     <Container>
       <Header>
         <User>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => onGoToUserProfile(postAuthorId)}>
             <Picture
               source={{
                 uri: `${api.defaults.baseURL}/images/${userProfilePicture}`,
@@ -112,17 +126,24 @@ const Post = ({
             />
           </TouchableOpacity>
           <UserInfo>
-            <Text size={13} type={TextType.bold}>
+            <Text
+              size={13}
+              type={TextType.bold}
+              onPress={() => onGoToUserProfile(postAuthorId)}
+            >
               {username}
             </Text>
             {location !== '' && <Text size={11}>{location}</Text>}
           </UserInfo>
         </User>
-        <SimpleLineIcons
-          name='options-vertical'
-          size={16}
-          color={colors.textPrimary}
-        />
+        {userId === postAuthorId && (
+          <SimpleLineIcons
+            name='options-vertical'
+            size={16}
+            color={colors.textPrimary}
+            onPress={() => setIsShowDeletPostModal(true)}
+          />
+        )}
       </Header>
       <View>
         {files.length > 1 && (
@@ -188,9 +209,9 @@ const Post = ({
           </Text>
         )}
         <Description numberOfLines={numberOfLines}>
-          <Text type={TextType.bold}>Usuário</Text> {description}
+          <Text type={TextType.bold}>Usuário</Text> {description && description}
         </Description>
-        {description.length > 140 && numberOfLines && (
+        {description && description.length > 140 && numberOfLines && (
           <Text
             color={colors.inputText}
             onPress={() => setNumberOfLines(undefined)}
@@ -198,17 +219,45 @@ const Post = ({
             ...mais
           </Text>
         )}
-        {comments.length > 0 && (
+        {commentsNumber > 0 && (
           <Comments>
             <Text
               color={colors.inputText}
               onPress={() => onGoToComments(postId)}
             >
-              Ver todos os {comments.length} comentários
+              Ver todos os {commentsNumber} comentários
             </Text>
           </Comments>
         )}
       </Info>
+      <Modal isVisible={isShowDeletPostModal}>
+        <DeletePostModal>
+          <ModalBody>
+            <ModalTitle type={TextType.bold} size={20}>
+              Excluir postagem
+            </ModalTitle>
+            <Text size={16}>Tem certeza que deseja excluir essa postagem?</Text>
+          </ModalBody>
+          <Buttons>
+            <Separator />
+            <TouchableOpacity>
+              <Delete
+                type={TextType.bold}
+                size={16}
+                onPress={() => onDeletePost(postId)}
+              >
+                Excluir
+              </Delete>
+            </TouchableOpacity>
+            <Separator />
+            <TouchableOpacity onPress={() => setIsShowDeletPostModal(false)}>
+              <Cancel type={TextType.bold} size={16}>
+                Cancelar
+              </Cancel>
+            </TouchableOpacity>
+          </Buttons>
+        </DeletePostModal>
+      </Modal>
     </Container>
   );
 };

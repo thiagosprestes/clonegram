@@ -72,3 +72,38 @@ export const LikeHeartContainer = styled.View`
   align-items: center;
   z-index: 1;
 `;
+
+export const DeletePostModal = styled.View`
+  background-color: ${colors.white};
+  border-radius: 8px;
+
+  width: 230px;
+`;
+
+export const ModalTitle = styled(Text)`
+  margin-bottom: 20px;
+`;
+
+export const Separator = styled.View`
+  height: 1px;
+  width: 100%;
+  background-color: ${colors.lightGrey};
+`;
+
+export const ModalBody = styled.View`
+  align-items: center;
+  padding: 20px;
+`;
+
+export const Buttons = styled.View``;
+
+export const Delete = styled(Text)`
+  padding: 20px;
+  align-self: center;
+  color: ${colors.blue};
+`;
+
+export const Cancel = styled(Text)`
+  padding: 20px;
+  align-self: center;
+`;
