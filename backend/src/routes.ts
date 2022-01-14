@@ -18,7 +18,6 @@ router.post(
 );
 router.post("/login", new SessionController().create);
 router.post("/refresh-token", new SessionController().refreshToken);
-router.get("/users", sessionMiddleware, new UserController().index);
 
 router.post(
   "/posts",
@@ -26,6 +25,9 @@ router.post(
   upload.array("files"),
   new PostController().create
 );
+router.get("/users", sessionMiddleware, new UserController().index);
+router.get("/user/:id", sessionMiddleware, new UserController().show);
+
 router.get("/feed/:userId", sessionMiddleware, new PostController().index);
 router.get("/posts/:userId", sessionMiddleware, new PostController().show);
 router.put("/posts/:postId", sessionMiddleware, new PostController().update);

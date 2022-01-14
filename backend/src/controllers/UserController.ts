@@ -73,13 +73,45 @@ class UserController {
   async index(request: Request, response: Response) {
     const userModel = prismaClient.user;
 
-    const users = await userModel.findMany({
+    const users = await userModel.findMany();
+
+    return response.json(users);
+  }
+
+  async show(request: Request, response: Response) {
+    const userModel = prismaClient.user;
+
+    const { id } = request.params;
+
+    const user = await userModel.findFirst({
+      where: {
+        id,
+      },
       include: {
-        profile: true,
+        profile: {
+          select: {
+            profile_picture: true,
+            bio: true,
+            followers: true,
+            following: true,
+          },
+        },
+        Post: {
+          select: {
+            PostFile: {
+              select: {
+                id: true,
+                filename: true,
+              },
+            },
+          },
+        },
       },
     });
 
-    return response.json(users);
+    if (!user) return response.status(400).json({ message: "User not exists" });
+
+    return response.send(user);
   }
 }
 

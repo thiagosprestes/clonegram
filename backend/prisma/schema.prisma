@@ -11,22 +11,22 @@ datasource db {
 }
 
 model User {
-  id            String          @id @default(uuid())
-  username      String          @unique
-  email         String          @unique
-  password      String
-  profile       Profile         @relation(fields: [profileId], references: [id], onDelete: Cascade)
-  profileId     String          @default(uuid())
-  Post          Post[]
-  PostComment   PostComment[]
-  PostLike      PostLike[]
-  UserFollows   UserFollows[]
+  id          String        @id @default(uuid())
+  username    String        @unique
+  email       String        @unique
+  password    String
+  profile     Profile       @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  profileId   String        @default(uuid())
+  Post        Post[]
+  PostComment PostComment[]
+  PostLike    PostLike[]
+  UserFollows UserFollows[]
 }
 
 model Profile {
   id              String  @id @default(uuid())
-  followers       BigInt  @default(0)
-  following       BigInt  @default(0)
+  followers       Int     @default(0)
+  following       Int     @default(0)
   bio             String?
   profile_picture String?
   User            User[]
