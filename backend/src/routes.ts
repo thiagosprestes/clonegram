@@ -75,6 +75,11 @@ router.get(
   sessionMiddleware,
   new UserFollowsController().index
 );
+router.get(
+  "/users/follows/:userId",
+  sessionMiddleware,
+  new UserFollowsController().show
+);
 router.delete(
   "/users/:userId/follows",
   sessionMiddleware,

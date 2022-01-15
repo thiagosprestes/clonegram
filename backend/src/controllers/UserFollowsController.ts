@@ -83,6 +83,33 @@ class UserFollowsController {
     return response.json(userFollows);
   }
 
+  async show(request: Request, response: Response) {
+    const userFollowsModel = prismaClient.userFollows;
+    const userModel = prismaClient.user;
+
+    const { userId } = request.params;
+    const { authUserId } = request.query;
+
+    const isUserExists = await userModel.findFirst({
+      where: { id: userId },
+    });
+
+    const isAuthUserExists = await userModel.findFirst({
+      where: { id: authUserId as string },
+    });
+
+    if (!isUserExists || !isAuthUserExists)
+      return response.status(400).json({ message: "User not exists" });
+
+    const authUserFollows = await userFollowsModel.findFirst({
+      where: {
+        userFollowId: userId,
+      },
+    });
+
+    return response.json({ isUserFollow: Boolean(authUserFollows) });
+  }
+
   async delete(request: Request, response: Response) {
     try {
       const userFollowsModel = prismaClient.userFollows;
