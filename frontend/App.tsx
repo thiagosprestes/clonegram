@@ -28,7 +28,7 @@ export default function App() {
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <CustomThemeProvider>
-            <StatusBar translucent />
+            <StatusBar translucent style='inverted' />
             <Routes />
           </CustomThemeProvider>
         </PersistGate>

@@ -72,11 +72,15 @@ const Login = function ({
       <Logo source={onSelectLogo()} resizeMode='contain' />
       <LoginForm>
         <Input
+          autoCorrect={false}
+          autoCapitalize='none'
           placeholder='Usuário'
           placeholderTextColor={theme.colors.inputText}
           onChangeText={(text) => setUsername(text)}
         />
         <Input
+          autoCorrect={false}
+          autoCapitalize='none'
           placeholder='Senha'
           secureTextEntry
           placeholderTextColor={theme.colors.inputText}

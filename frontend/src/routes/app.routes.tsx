@@ -64,6 +64,24 @@ function HomeStackScreen() {
           ),
         })}
       />
+      <HomeStack.Screen
+        name={Routes.Profile}
+        component={Profile}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
     </HomeStack.Navigator>
   );
 }
@@ -73,21 +91,14 @@ function ProfileStackScreen() {
     <HomeStack.Navigator
       screenOptions={{
         headerShadowVisible: false,
-        headerShown: false,
       }}
     >
-      <HomeStack.Screen
-        name={Routes.Profile}
-        component={Profile}
-        initialParams={{ userId: '951b1bea-ba43-45c1-b52d-89416d8fbbe5' }}
-      />
+      <HomeStack.Screen name={Routes.Profile} component={Profile} />
       <HomeStack.Screen
         name={Routes.Post}
         component={Post}
         options={({ navigation }) => ({
           title: 'Publicações',
-          headerShown: true,
-
           headerLeft: () => (
             <AntDesign
               name='arrowleft'

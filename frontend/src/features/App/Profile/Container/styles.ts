@@ -7,7 +7,9 @@ interface OptionProps {
   isSelected: boolean;
 }
 
-export const Container = styled(SafeAreaView)``;
+export const Container = styled(SafeAreaView)`
+  margin: 0;
+`;
 
 export const Header = styled.View`
   padding: 12px 20px;

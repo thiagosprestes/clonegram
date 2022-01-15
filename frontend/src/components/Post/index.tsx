@@ -119,11 +119,7 @@ const Post = ({
       <Header>
         <User>
           <TouchableOpacity onPress={() => onGoToUserProfile(postAuthorId)}>
-            <Picture
-              source={{
-                uri: `${api.defaults.baseURL}/images/${userProfilePicture}`,
-              }}
-            />
+            <Picture imageSource={userProfilePicture} size={35} />
           </TouchableOpacity>
           <UserInfo>
             <Text
@@ -161,11 +157,7 @@ const Post = ({
                     <AnimatedLottieView source={like} autoPlay />
                   </LikeHeartContainer>
                 )}
-                <Content
-                  source={{
-                    uri: `${api.defaults.baseURL}/images/${item.filename}`,
-                  }}
-                />
+                <Content size={375} imageSource={item.filename} />
               </View>
             </TouchableWithoutFeedback>
           )}

@@ -17,7 +17,11 @@ const PostCommentItem = ({
 }: PostCommentItem) => {
   return (
     <Container isDescription={isDescription ?? false}>
-      <PostUserProfilePicture imageSource={userPicture} size={30} />
+      <PostUserProfilePicture
+        imageSource={userPicture}
+        size={30}
+        isRounded={true}
+      />
       <Text type={TextType.bold} size={12} style={{ marginLeft: 6 }}>
         {username}
       </Text>

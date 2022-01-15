@@ -121,13 +121,8 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   };
 
   const handleOnGoToUserProfile = (userId: string) => {
-    // navigation.replace(Routes.ProfileStack, {
-    //   screen: Routes.Profile,
-    // });
-
-    navigation.navigate(Routes.ProfileStack, {
-      screen: Routes.Profile,
-      params: { userId },
+    navigation.navigate(Routes.Profile, {
+      userId,
     });
   };
 

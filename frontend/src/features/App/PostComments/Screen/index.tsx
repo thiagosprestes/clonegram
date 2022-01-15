@@ -5,6 +5,7 @@ import { useAppSelector } from '~/hooks/redux';
 import { States } from '~/models/states';
 import {
   addComment,
+  removeComment,
   storeCommentsList,
 } from '~/redux/slices/postCommentsSlice';
 import { Routes } from '~/routes/appRoutes';
@@ -19,6 +20,9 @@ interface PostCommentsScreenProps {
 const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
   const [state, setState] = useState(States.loading);
   const [comment, setComment] = useState('');
+  const [isShowDeleteCommentModal, setIsShowDeleteCommentModal] =
+    useState(false);
+  const [selectedCommentId, setSelectedCommentId] = useState('');
 
   const { postId } = route.params;
 
@@ -73,6 +77,30 @@ const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
     }
   };
 
+  const handleOnDeleteComment = async () => {
+    try {
+      await api.delete(`/posts/comments/${selectedCommentId}`);
+
+      dispatch(removeComment(selectedCommentId));
+
+      setIsShowDeleteCommentModal(false);
+    } catch (error: any) {
+      console.log(error.response);
+      console.log('AQIO');
+      setState(States.error);
+    }
+  };
+
+  const handleOnSelectComment = (
+    commentId: string,
+    commentAuthorId: string
+  ) => {
+    if (userId === commentAuthorId || userId === post?.user.id) {
+      setIsShowDeleteCommentModal(true);
+      setSelectedCommentId(commentId);
+    }
+  };
+
   useEffect(() => {
     handleOnGetComments();
   }, []);
@@ -81,13 +109,18 @@ const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
     <PostComments
       comment={comment}
       comments={comments}
+      isShowDeleteCommentModal={isShowDeleteCommentModal}
       onAddComment={handleOnAddComment}
       onChangeComment={handleOnChangeComment}
+      onCloseDeleteCommentModal={() => setIsShowDeleteCommentModal(false)}
+      onDeleteComment={handleOnDeleteComment}
       onRetry={handleOnGetComments}
+      onSelectComment={handleOnSelectComment}
       loggedUserProfilePicture={userProfilePicture}
       postDescription={post?.description!}
       postUsername={post?.user.username!}
       postUserProfilePicture={post?.user.profile.profile_picture!}
+      selectedCommentId={selectedCommentId}
       state={state}
     />
   );

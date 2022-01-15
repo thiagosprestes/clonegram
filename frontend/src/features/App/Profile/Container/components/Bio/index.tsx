@@ -8,12 +8,22 @@ import { ButtonsContainer, Container, Description, Name } from './styles';
 interface BioProps {
   bio?: string;
   name: string;
+  isFollowedByUser: boolean;
   onFollow: (userId: string) => void;
   onGoToUpdate: (userId: string) => void;
+  onUnfollow: (userId: string) => void;
   userId: string;
 }
 
-const Bio = ({ bio, name, onFollow, onGoToUpdate, userId }: BioProps) => {
+const Bio = ({
+  bio,
+  name,
+  isFollowedByUser,
+  onFollow,
+  onGoToUpdate,
+  onUnfollow,
+  userId,
+}: BioProps) => {
   const authenticatedUserId = useAppSelector(
     (state) => state.authReducer.userId
   );
@@ -26,11 +36,21 @@ const Bio = ({ bio, name, onFollow, onGoToUpdate, userId }: BioProps) => {
       {bio && <Description>{bio}</Description>}
       <ButtonsContainer>
         {userId !== authenticatedUserId ? (
-          <Button
-            text='Seguir'
-            onPress={() => onFollow(userId)}
-            type={ButtonType.primary}
-          />
+          <>
+            {isFollowedByUser ? (
+              <Button
+                text='Seguindo'
+                onPress={() => onUnfollow(userId)}
+                type={ButtonType.secondary}
+              />
+            ) : (
+              <Button
+                text='Seguir'
+                onPress={() => onFollow(userId)}
+                type={ButtonType.primary}
+              />
+            )}
+          </>
         ) : (
           <Button
             text='Editar perfil'

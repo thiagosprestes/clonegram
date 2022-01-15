@@ -1,5 +1,6 @@
 import styled from 'styled-components/native';
 import { colors } from '~/styleguide';
+import ImageComponent from '../Image';
 import Text from '../Text';
 
 export const Container = styled.View``;
@@ -16,17 +17,13 @@ export const User = styled.View`
   align-items: center;
 `;
 
-export const Picture = styled.Image`
-  width: 35px;
-  height: 35px;
-  border-radius: 25px;
-`;
+export const Picture = styled(ImageComponent)``;
 
 export const UserInfo = styled.View`
   margin-left: 10px;
 `;
 
-export const Content = styled.Image`
+export const Content = styled(ImageComponent)`
   height: 375px;
 `;
 

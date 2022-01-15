@@ -1,9 +1,7 @@
 import React from 'react';
-import { TextType } from '~/components/Text';
 import Bio from './components/Bio';
 import Info from './components/Info';
-import { Container, Header, Posts, Username } from './styles';
-import { MaterialIcons } from '@expo/vector-icons';
+import { Container, Posts } from './styles';
 import {
   Dimensions,
   Image,
@@ -18,19 +16,18 @@ import Error from '~/components/Error';
 import { PostResponse } from '~/models/post';
 import { api } from '~/services/api';
 import EmptyContent from '~/components/EmptyContent';
-
-interface ProfilePostOption {
-  icon: React.ReactNode;
-  isSelected: boolean;
-}
+import ImageComponent from '~/components/Image';
 
 interface ProfileProps {
   bio?: string;
   followersNumber: number;
   followingNumber: number;
+  isFollowedByUser: boolean;
   postsNumber: number;
   profilePicture: string;
+  onFollow: (userId: string) => void;
   onGoToPost: (postId: string) => void;
+  onUnfollow: (userId: string) => void;
   posts: PostResponse[];
   onRetry: () => void;
   state: States;
@@ -42,9 +39,12 @@ const Profile = ({
   bio,
   followersNumber,
   followingNumber,
+  isFollowedByUser,
   postsNumber,
   posts,
   profilePicture,
+  onFollow,
+  onUnfollow,
   onGoToPost,
   onRetry,
   state,
@@ -54,51 +54,39 @@ const Profile = ({
   const { width } = Dimensions.get('window');
 
   const content = (
-    <>
-      <Header>
-        <Username type={TextType.bold} size={20}>
-          {username}
-        </Username>
-      </Header>
-      <ScrollView
-        refreshControl={
-          <RefreshControl refreshing={false} onRefresh={onRetry} />
-        }
-      >
-        <Info
-          followers={followersNumber}
-          following={followingNumber}
-          posts={postsNumber}
-          profilePicture={profilePicture}
-        />
-        <Bio
-          bio={bio}
-          name={username}
-          onFollow={() => undefined}
-          onGoToUpdate={() => undefined}
-          userId={userId}
-        />
-        <Posts>
-          {posts.length > 0 ? (
-            posts.map((post) => (
-              <TouchableOpacity
-                key={post.id}
-                onPress={() => onGoToPost(post.id)}
-              >
-                <Image
-                  source={{
-                    uri: `${api.defaults.baseURL}/images/${post.PostFile[0].filename}`,
-                  }}
-                  style={{ width: width / 3, height: width / 3 }}
-                />
-              </TouchableOpacity>
-            ))
-          ) : (
-            <EmptyContent text='Nenhuma postagem foi encontrada!' />
-          )}
-        </Posts>
-      </ScrollView>
-    </>
+    <ScrollView
+      refreshControl={<RefreshControl refreshing={false} onRefresh={onRetry} />}
+    >
+      <Info
+        followers={followersNumber}
+        following={followingNumber}
+        posts={postsNumber}
+        profilePicture={profilePicture}
+      />
+      <Bio
+        bio={bio}
+        name={username}
+        isFollowedByUser={isFollowedByUser}
+        onFollow={onFollow}
+        onGoToUpdate={() => undefined}
+        onUnfollow={onUnfollow}
+        userId={userId}
+      />
+      <Posts>
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <TouchableOpacity key={post.id} onPress={() => onGoToPost(post.id)}>
+              <ImageComponent
+                imageSource={post.PostFile[0].filename}
+                size={width / 3}
+              />
+            </TouchableOpacity>
+          ))
+        ) : (
+          <EmptyContent text='Nenhuma postagem foi encontrada!' />
+        )}
+      </Posts>
+    </ScrollView>
   );
 
   const loading = <Loading />;

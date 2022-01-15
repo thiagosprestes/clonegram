@@ -23,7 +23,9 @@ const Info = ({ followers, following, posts, profilePicture }: InfoProps) => {
       <Value type={TextType.bold} size={20}>
         {value}
       </Value>
-      <Label color={colors.lightGreyText}>{label}</Label>
+      <Label color={colors.lightGreyText} numberOfLines={1}>
+        {label}
+      </Label>
     </Column>
   );
 
