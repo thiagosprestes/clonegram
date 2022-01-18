@@ -7,6 +7,7 @@ class UserFollowersController {
     const userFollowsModel = prismaClient.userFollows;
     const userModel = prismaClient.user;
 
+    const { page, username } = request.query;
     const { userId } = request.params;
 
     const isUserExists = await userModel.findFirst({
@@ -19,7 +20,12 @@ class UserFollowersController {
     const userFollowers = await userFollowsModel.findMany({
       where: {
         userId,
+        followedUser: {
+          username: username as string,
+        },
       },
+      take: 20,
+      skip: page ? (Number(page) - 1) * 2 : 0,
     });
 
     return response.json(userFollowers);

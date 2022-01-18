@@ -82,7 +82,7 @@ class UserController {
           mode: "insensitive",
         },
       },
-      take: 2,
+      take: 20,
       skip: page ? (Number(page) - 1) * 2 : 0,
     });
 
