@@ -2,38 +2,36 @@ import React from 'react';
 import { FlatList } from 'react-native';
 import Error from '~/components/Error';
 import Loading from '~/components/Loading';
-import UsersListItem from '~/components/UsersListItem';
-import { useTheme } from '~/hooks/useTheme';
-import { PostLike } from '~/models/post';
 import { States } from '~/models/states';
+import UsersListItem from '~/components/UsersListItem';
 import { Container, Input } from './styles';
+import { User } from '~/models/user';
+import { colors } from '~/styleguide';
 
-interface HomeProps {
-  likes: PostLike[];
+interface SearchProps {
+  users: User[];
   onChangeSearchInput: (search: string) => void;
   onRetry: () => void;
   searchTerm: string;
   state: States;
 }
 
-const PostLikes = ({
-  likes,
+const Search = ({
+  users,
   onChangeSearchInput,
   onRetry,
   searchTerm,
   state,
-}: HomeProps) => {
-  const { theme } = useTheme();
-
+}: SearchProps) => {
   const content = (
     <FlatList
-      data={likes}
+      data={users}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item }: { item: PostLike }) => (
+      renderItem={({ item }: { item: User }) => (
         <UsersListItem
-          username={item.user.username}
-          userPicture={item.user.profile.profile_picture}
+          username={item.username}
+          userPicture={item.profile.profile_picture}
         />
       )}
     />
@@ -47,19 +45,19 @@ const PostLikes = ({
     <Container>
       <Input
         placeholder='Pesquisar'
-        placeholderTextColor={theme.colors.inputText}
+        placeholderTextColor={colors.lightGreyText}
         onChangeText={(text) => onChangeSearchInput(text)}
         value={searchTerm}
       />
       {
         {
           [States.default]: content,
-          [States.loading]: loading,
           [States.error]: error,
+          [States.loading]: loading,
         }[state]
       }
     </Container>
   );
 };
 
-export default PostLikes;
+export default Search;

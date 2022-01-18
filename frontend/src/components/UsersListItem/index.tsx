@@ -3,12 +3,12 @@ import { Container, Username, UserPicture } from './styles';
 import { TextType } from '~/components/Text';
 import { api } from '~/services/api';
 
-interface PostLikeItem {
+interface UsersListItemProps {
   username: string;
   userPicture: string;
 }
 
-const PostLikeItem = ({ username, userPicture }: PostLikeItem) => {
+const UsersListItem = ({ username, userPicture }: UsersListItemProps) => {
   return (
     <Container>
       <UserPicture
@@ -21,4 +21,4 @@ const PostLikeItem = ({ username, userPicture }: PostLikeItem) => {
   );
 };
 
-export default PostLikeItem;
+export default UsersListItem;

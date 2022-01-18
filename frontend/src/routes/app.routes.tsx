@@ -1,19 +1,18 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Home from '~/features/App/Home/Screen';
-import HomeIcon from '~/assets/icons/Home.svg';
-import SearchIcon from '~/assets/icons/Search.svg';
 import { useTheme } from 'styled-components';
-import { removeAuthData } from '~/redux/slices/authSlice';
-import { useDispatch } from 'react-redux';
-import PostLikes from '~/features/App/PostLikes/Screen';
-import PostComments from '~/features/App/PostComments/Screen';
-import { Routes } from './appRoutes';
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { Routes } from './appRoutes';
+import HomeIcon from '~/assets/icons/Home.svg';
+import SearchIcon from '~/assets/icons/Search.svg';
+import Home from '~/features/App/Home/Screen';
+import PostLikes from '~/features/App/PostLikes/Screen';
+import PostComments from '~/features/App/PostComments/Screen';
 import Profile from '~/features/App/Profile/Screen';
 import Post from '~/features/App/Post/Screen';
+import Search from '~/features/App/Search/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -119,7 +118,6 @@ function ProfileStackScreen() {
 const Tab = createBottomTabNavigator();
 
 const AppRoutes = () => {
-  const dispatch = useDispatch();
   const { colors } = useTheme();
   return (
     <NavigationContainer>
@@ -139,15 +137,9 @@ const AppRoutes = () => {
         />
         <Tab.Screen
           name={Routes.Search}
-          component={Home}
+          component={Search}
           options={{
-            tabBarIcon: () => (
-              <SearchIcon
-                width={30}
-                height={30}
-                onPress={() => dispatch(removeAuthData())}
-              />
-            ),
+            tabBarIcon: () => <SearchIcon width={30} height={30} />,
           }}
         />
         <Tab.Screen
