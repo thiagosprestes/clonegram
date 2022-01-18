@@ -27,6 +27,13 @@ router.post(
 );
 router.get("/users", sessionMiddleware, new UserController().index);
 router.get("/user/:id", sessionMiddleware, new UserController().show);
+router.put(
+  "/users/:id",
+  sessionMiddleware,
+  upload.single("profile_picture"),
+  new UserController().update
+);
+router.delete("/users/:id", sessionMiddleware, new UserController().delete);
 
 router.get("/feed/:userId", sessionMiddleware, new PostController().index);
 router.get("/post/:postId", sessionMiddleware, new PostController().show);

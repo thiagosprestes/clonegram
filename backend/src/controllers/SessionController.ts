@@ -50,6 +50,7 @@ class SessionController {
       const { authToken, refreshToken } = handleGenerateTokens(username);
 
       response.cookie("@clonegram:refresh_token", refreshToken);
+      response.cookie("@clonegram:userId", isUserExists.id);
 
       return response.json({
         userId: isUserExists.id,
