@@ -82,6 +82,15 @@ class UserController {
           mode: "insensitive",
         },
       },
+      select: {
+        id: true,
+        username: true,
+        profile: {
+          select: {
+            profile_picture: true,
+          },
+        },
+      },
       take: 20,
       skip: page ? (Number(page) - 1) * 2 : 0,
     });
