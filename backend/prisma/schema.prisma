@@ -20,7 +20,8 @@ model User {
   Post        Post[]
   PostComment PostComment[]
   PostLike    PostLike[]
-  UserFollows UserFollows[]
+  follows     UserFollows[] @relation("follows")
+  followers   UserFollows[] @relation("followers")
 }
 
 model Profile {
@@ -69,8 +70,9 @@ model PostLike {
 }
 
 model UserFollows {
-  id           String @id @default(uuid())
-  userId       String
-  userFollowId String
-  followedUser User   @relation(fields: [userFollowId], references: [id], onDelete: Cascade)
+  id            String @id @default(uuid())
+  userId        String
+  userFollowId  String
+  followingUser User   @relation("follows", fields: [userId], references: [id], onDelete: Cascade)
+  followerUser  User   @relation("followers", fields: [userFollowId], references: [id], onDelete: Cascade)
 }

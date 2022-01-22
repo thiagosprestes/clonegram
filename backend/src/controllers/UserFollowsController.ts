@@ -78,8 +78,24 @@ class UserFollowsController {
     const userFollows = await userFollowsModel.findMany({
       where: {
         userFollowId: userId,
-        followedUser: {
-          username: username as string,
+        followingUser: {
+          username: {
+            contains: username as string,
+            mode: "insensitive",
+          },
+        },
+      },
+      include: {
+        followingUser: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
         },
       },
       take: 20,
@@ -94,7 +110,7 @@ class UserFollowsController {
     const userModel = prismaClient.user;
 
     const { userId } = request.params;
-    const { authUserId } = request.query;
+    const { page, username, authUserId } = request.query;
 
     const isUserExists = await userModel.findFirst({
       where: { id: userId },
@@ -110,7 +126,28 @@ class UserFollowsController {
     const authUserFollows = await userFollowsModel.findFirst({
       where: {
         userFollowId: userId,
+        followingUser: {
+          username: {
+            contains: username as string,
+            mode: "insensitive",
+          },
+        },
       },
+      include: {
+        followingUser: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
+        },
+      },
+      take: 20,
+      skip: page ? (Number(page) - 1) * 2 : 0,
     });
 
     return response.json({ isUserFollow: Boolean(authUserFollows) });

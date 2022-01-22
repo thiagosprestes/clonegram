@@ -20,8 +20,24 @@ class UserFollowersController {
     const userFollowers = await userFollowsModel.findMany({
       where: {
         userId,
-        followedUser: {
-          username: username as string,
+        followerUser: {
+          username: {
+            contains: username as string,
+            mode: "insensitive",
+          },
+        },
+      },
+      include: {
+        followerUser: {
+          select: {
+            id: true,
+            username: true,
+            profile: {
+              select: {
+                profile_picture: true,
+              },
+            },
+          },
         },
       },
       take: 20,
