@@ -1,13 +1,20 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Login from '~/features/Auth/Login/Container';
 import { useTheme } from '~/hooks/useTheme';
 import { ApiStates } from '~/models/apiStates';
 import { storeAuthData } from '~/redux/slices/authSlice';
+import { Routes } from '~/routes/appRoutes';
+import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 import { login } from '~/services/login';
 
-const LoginScreen = () => {
+interface LoginScreenProps {
+  navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
+}
+
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [state, setState] = useState(ApiStates.default);
   const dispatch = useDispatch();
 
@@ -33,6 +40,10 @@ const LoginScreen = () => {
     }
   };
 
+  const handleOnGoToSignUp = () => {
+    navigation.navigate(Routes.SignUp);
+  };
+
   return (
     <Login
       onToggleTheme={handleToggleTheme}
@@ -40,6 +51,7 @@ const LoginScreen = () => {
       onLogin={handleOnLogin}
       state={state}
       onCloseModal={() => setState(ApiStates.default)}
+      onGoToSignUp={handleOnGoToSignUp}
     />
   );
 };

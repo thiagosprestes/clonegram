@@ -8,4 +8,5 @@ export enum Routes {
   ProfileStack = 'ProfileStack',
   Followers = 'Followers',
   Following = 'Following',
+  SignUp = 'SignUp',
 }

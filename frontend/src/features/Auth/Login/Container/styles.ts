@@ -1,6 +1,6 @@
-import styled from "styled-components/native";
-import Text from "~/components/Text";
-import { colors, fonts } from "~/styleguide";
+import styled from 'styled-components/native';
+import Text from '~/components/Text';
+import { colors, fonts } from '~/styleguide';
 
 interface LoginButtonProps {
   isDisabled: boolean;
@@ -30,7 +30,7 @@ export const Input = styled.TextInput`
   color: ${(props) => props.theme.colors.inputText};
 `;
 
-export const ForgotPassword = styled(Text)`
+export const SignUpText = styled(Text)`
   text-align: center;
   font-family: ${fonts.bold};
   color: ${colors.blue};

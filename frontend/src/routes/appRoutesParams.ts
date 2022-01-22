@@ -22,4 +22,5 @@ export type AppNavigationRouteParams = {
   [Routes.Following]: {
     userId: string;
   };
+  [Routes.SignUp]: undefined;
 };

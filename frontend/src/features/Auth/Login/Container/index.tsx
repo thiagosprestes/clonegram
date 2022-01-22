@@ -10,7 +10,7 @@ import { Feather } from '@expo/vector-icons';
 
 import {
   Container,
-  ForgotPassword,
+  SignUpText,
   Input,
   LoginButton,
   LoginForm,
@@ -41,6 +41,7 @@ interface LoginProps {
   onLogin: (username: string, password: string) => void;
   state: ApiStates;
   onCloseModal: () => void;
+  onGoToSignUp: () => void;
 }
 
 const Login = function ({
@@ -49,6 +50,7 @@ const Login = function ({
   onLogin,
   state,
   onCloseModal,
+  onGoToSignUp,
 }: LoginProps) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -99,8 +101,8 @@ const Login = function ({
             </LoginButtonText>
           )}
         </LoginButton>
-        <TouchableOpacity>
-          <ForgotPassword>Esqueceu a senha?</ForgotPassword>
+        <TouchableOpacity onPress={onGoToSignUp}>
+          <SignUpText>Cadastre-se</SignUpText>
         </TouchableOpacity>
       </LoginForm>
       <DarkModeToggle onPress={onToggleTheme}>

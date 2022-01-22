@@ -5,6 +5,7 @@ import Text from '../Text';
 
 interface ButtonProps {
   buttonType: ButtonType;
+  isDisabled?: boolean;
 }
 
 export const Button = styled.TouchableOpacity<ButtonProps>`
@@ -16,8 +17,9 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
       ? '0px'
       : `1px solid ${colors.secondaryGrey}`};
   border-radius: 5px;
-  flex: 1;
-  padding: 7px 30px;
+  padding: 16px 30px;
+  height: auto;
+  opacity: ${(props) => (props.isDisabled ? 0.6 : 1)};
 `;
 
 export const ButtonText = styled(Text)<ButtonProps>`
