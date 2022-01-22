@@ -5,11 +5,13 @@ import { ToastAndroid } from 'react-native';
 import { useAppSelector } from '~/hooks/redux';
 import { PostResponse } from '~/models/post';
 import { States } from '~/models/states';
-import { User } from '~/models/user';
 import { Routes } from '~/routes/appRoutes';
 import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 import Profile from '../Container';
+import { AntDesign } from '@expo/vector-icons';
+import { removeAuthData } from '~/redux/slices/authSlice';
+import { useDispatch } from 'react-redux';
 
 interface ProfileScreenProps {
   navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
@@ -25,7 +27,9 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
 
   const authenticatedUser = useAppSelector((state) => state.authReducer);
 
-  const { userId } = route.params ?? authenticatedUser;
+  const dispatch = useDispatch();
+
+  const userId = route.params ? route.params.userId : authenticatedUser.userId;
 
   const handleOnGetUserProfile = async () => {
     setState(States.loading);
@@ -60,8 +64,8 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
 
   const handleOnFollow = async (userId: string) => {
     try {
-      await api.post(`/users/${authenticatedUser.userId}`, {
-        userId,
+      await api.post(`/users/${userId}`, {
+        userId: authenticatedUser.userId,
       });
 
       setIsFollowedByUser(true);
@@ -86,16 +90,41 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
     }
   };
 
+  const handleOnGoToFollowers = () => {
+    navigation.navigate(Routes.Followers, {
+      userId,
+    });
+  };
+
+  const handleOnGoToFollowing = () => {
+    navigation.navigate(Routes.Following, {
+      userId,
+    });
+  };
+
   useFocusEffect(
     useCallback(() => {
       handleOnGetUserProfile();
-      verifyIfUserFollow();
+      userId !== authenticatedUser.userId && verifyIfUserFollow();
     }, [])
   );
 
   useEffect(() => {
     navigation.setOptions({
       title: username,
+      headerRight: () => (
+        <>
+          {userId === authenticatedUser.userId && (
+            <AntDesign
+              name='close'
+              size={24}
+              color='black'
+              onPress={() => dispatch(removeAuthData())}
+              style={{ marginRight: 10 }}
+            />
+          )}
+        </>
+      ),
     });
   }, [username]);
 
@@ -106,6 +135,8 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
       followingNumber={profile.following}
       isFollowedByUser={isFollowedByUser}
       onFollow={handleOnFollow}
+      onGoToFollowers={handleOnGoToFollowers}
+      onGoToFollowing={handleOnGoToFollowing}
       onGoToPost={handleOnGoToPost}
       onUnfollow={handleOnUnfollow}
       onRetry={handleOnGetUserProfile}

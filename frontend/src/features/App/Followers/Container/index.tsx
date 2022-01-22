@@ -5,36 +5,36 @@ import Loading from '~/components/Loading';
 import { States } from '~/models/states';
 import UsersListItem from '~/components/UsersListItem';
 import { Container, Input } from './styles';
-import { User } from '~/models/user';
 import { colors } from '~/styleguide';
+import { UserFollower } from '~/models/follower';
 
-interface SearchProps {
-  users: User[];
-  onChangeSearchInput: (search: string) => void;
+interface FollowersProps {
+  followers: UserFollower[];
+  onChangeFollowersInput: (Followers: string) => void;
   onGoToProfile: (userId: string) => void;
   onRetry: () => void;
-  searchTerm: string;
+  username: string;
   state: States;
 }
 
-const Search = ({
-  users,
-  onChangeSearchInput,
+const Followers = ({
+  followers,
+  onChangeFollowersInput,
   onGoToProfile,
   onRetry,
-  searchTerm,
+  username,
   state,
-}: SearchProps) => {
+}: FollowersProps) => {
   const content = (
     <FlatList
-      data={users}
+      data={followers}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item }: { item: User }) => (
-        <TouchableOpacity onPress={() => onGoToProfile(item.id)}>
+      renderItem={({ item }: { item: UserFollower }) => (
+        <TouchableOpacity onPress={() => onGoToProfile(item.followerUser.id)}>
           <UsersListItem
-            username={item.username}
-            userPicture={item.profile.profile_picture}
+            username={item.followerUser.username}
+            userPicture={item.followerUser.profile.profile_picture}
           />
         </TouchableOpacity>
       )}
@@ -50,8 +50,8 @@ const Search = ({
       <Input
         placeholder='Digite um nome de usuário'
         placeholderTextColor={colors.lightGreyText}
-        onChangeText={(text) => onChangeSearchInput(text)}
-        value={searchTerm}
+        onChangeText={(text) => onChangeFollowersInput(text)}
+        value={username}
       />
       {
         {
@@ -64,4 +64,4 @@ const Search = ({
   );
 };
 
-export default Search;
+export default Followers;

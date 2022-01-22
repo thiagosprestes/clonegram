@@ -19,7 +19,7 @@ import { api } from '~/services/api';
 interface HomeScreenProps {
   navigation: NativeStackNavigationProp<
     AppNavigationRouteParams,
-    Routes.ProfileStack
+    Routes.Profile
   >;
 }
 

@@ -3,4 +3,5 @@ interface UserProfile {
   bio?: string;
   followers: number;
   following: number;
+  username: string;
 }

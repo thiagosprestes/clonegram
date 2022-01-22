@@ -1,12 +1,19 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react';
 import useDebounce from '~/hooks/useDebounce';
 import { States } from '~/models/states';
 import { User } from '~/models/user';
+import { Routes } from '~/routes/appRoutes';
+import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 import Search from '../Container';
 
-const SearchScreen = () => {
-  const [state, setState] = useState(States.loading);
+interface SearchScreenProps {
+  navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
+}
+
+const SearchScreen = ({ navigation }: SearchScreenProps) => {
+  const [state, setState] = useState(States.default);
   const [users, setUsers] = useState<User[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -31,14 +38,22 @@ const SearchScreen = () => {
     setSearchTerm(value);
   };
 
+  const handleOnGoToProfile = (userId: string) => {
+    navigation.navigate(Routes.Profile, {
+      screen: Routes.Profile,
+      userId,
+    });
+  };
+
   useEffect(() => {
-    handleOnGetUsers();
+    if (debouncedSearchTerm) handleOnGetUsers();
   }, [debouncedSearchTerm]);
 
   return (
     <Search
       users={users}
       onChangeSearchInput={handleOnChangeSearchInput}
+      onGoToProfile={handleOnGoToProfile}
       onRetry={handleOnGetUsers}
       searchTerm={searchTerm}
       state={state}

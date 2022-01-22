@@ -86,7 +86,6 @@ const PostCommentsScreen = ({ route }: PostCommentsScreenProps) => {
       setIsShowDeleteCommentModal(false);
     } catch (error: any) {
       console.log(error.response);
-      console.log('AQIO');
       setState(States.error);
     }
   };

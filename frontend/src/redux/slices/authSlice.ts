@@ -30,10 +30,13 @@ export const authSlice = createSlice({
       state.username = '';
       state.userProfilePicture = '';
     },
+    updateToken: (state, action) => {
+      state.token = action.payload.token;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { storeAuthData, removeAuthData } = authSlice.actions;
+export const { storeAuthData, removeAuthData, updateToken } = authSlice.actions;
 
 export default authSlice.reducer;

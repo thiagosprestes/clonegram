@@ -17,15 +17,16 @@ export const User = styled.View`
   align-items: center;
 `;
 
-export const Picture = styled(ImageComponent)``;
+export const Picture = styled(ImageComponent)`
+  width: 35px;
+  height: 35px;
+`;
 
 export const UserInfo = styled.View`
   margin-left: 10px;
 `;
 
-export const Content = styled(ImageComponent)`
-  height: 375px;
-`;
+export const Content = styled(ImageComponent)``;
 
 export const Options = styled.View`
   flex-direction: row;

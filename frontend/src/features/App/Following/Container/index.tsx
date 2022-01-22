@@ -5,36 +5,36 @@ import Loading from '~/components/Loading';
 import { States } from '~/models/states';
 import UsersListItem from '~/components/UsersListItem';
 import { Container, Input } from './styles';
-import { User } from '~/models/user';
 import { colors } from '~/styleguide';
+import { UserFollowing } from '~/models/following';
 
-interface SearchProps {
-  users: User[];
-  onChangeSearchInput: (search: string) => void;
+interface FollowingProps {
+  following: UserFollowing[];
+  onChangeFollowingInput: (following: string) => void;
   onGoToProfile: (userId: string) => void;
   onRetry: () => void;
-  searchTerm: string;
+  username: string;
   state: States;
 }
 
-const Search = ({
-  users,
-  onChangeSearchInput,
+const Following = ({
+  following,
+  onChangeFollowingInput,
   onGoToProfile,
   onRetry,
-  searchTerm,
+  username,
   state,
-}: SearchProps) => {
+}: FollowingProps) => {
   const content = (
     <FlatList
-      data={users}
+      data={following}
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
-      renderItem={({ item }: { item: User }) => (
-        <TouchableOpacity onPress={() => onGoToProfile(item.id)}>
+      renderItem={({ item }: { item: UserFollowing }) => (
+        <TouchableOpacity onPress={() => onGoToProfile(item.followingUser.id)}>
           <UsersListItem
-            username={item.username}
-            userPicture={item.profile.profile_picture}
+            username={item.followingUser.username}
+            userPicture={item.followingUser.profile.profile_picture}
           />
         </TouchableOpacity>
       )}
@@ -50,8 +50,8 @@ const Search = ({
       <Input
         placeholder='Digite um nome de usuário'
         placeholderTextColor={colors.lightGreyText}
-        onChangeText={(text) => onChangeSearchInput(text)}
-        value={searchTerm}
+        onChangeText={(text) => onChangeFollowingInput(text)}
+        value={username}
       />
       {
         {
@@ -64,4 +64,4 @@ const Search = ({
   );
 };
 
-export default Search;
+export default Following;

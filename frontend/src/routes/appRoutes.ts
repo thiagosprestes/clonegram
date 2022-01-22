@@ -6,4 +6,6 @@ export enum Routes {
   Profile = 'Profile',
   Post = 'Post',
   ProfileStack = 'ProfileStack',
+  Followers = 'Followers',
+  Following = 'Following',
 }

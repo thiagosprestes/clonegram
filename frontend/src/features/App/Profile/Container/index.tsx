@@ -8,13 +8,11 @@ import {
   RefreshControl,
   ScrollView,
   TouchableOpacity,
-  View,
 } from 'react-native';
 import { States } from '~/models/states';
 import Loading from '~/components/Loading';
 import Error from '~/components/Error';
 import { PostResponse } from '~/models/post';
-import { api } from '~/services/api';
 import EmptyContent from '~/components/EmptyContent';
 import ImageComponent from '~/components/Image';
 
@@ -26,6 +24,8 @@ interface ProfileProps {
   postsNumber: number;
   profilePicture: string;
   onFollow: (userId: string) => void;
+  onGoToFollowers: () => void;
+  onGoToFollowing: () => void;
   onGoToPost: (postId: string) => void;
   onUnfollow: (userId: string) => void;
   posts: PostResponse[];
@@ -45,6 +45,8 @@ const Profile = ({
   profilePicture,
   onFollow,
   onUnfollow,
+  onGoToFollowers,
+  onGoToFollowing,
   onGoToPost,
   onRetry,
   state,
@@ -62,6 +64,8 @@ const Profile = ({
         following={followingNumber}
         posts={postsNumber}
         profilePicture={profilePicture}
+        onGoToFollowers={onGoToFollowers}
+        onGoToFollowing={onGoToFollowing}
       />
       <Bio
         bio={bio}

@@ -119,7 +119,7 @@ const Post = ({
       <Header>
         <User>
           <TouchableOpacity onPress={() => onGoToUserProfile(postAuthorId)}>
-            <Picture imageSource={userProfilePicture} size={35} />
+            <Picture imageSource={userProfilePicture} size={35} isRounded />
           </TouchableOpacity>
           <UserInfo>
             <Text
@@ -157,7 +157,11 @@ const Post = ({
                     <AnimatedLottieView source={like} autoPlay />
                   </LikeHeartContainer>
                 )}
-                <Content size={375} imageSource={item.filename} />
+                <Content
+                  style={{ width: '100%' }}
+                  size={375}
+                  imageSource={item.filename}
+                />
               </View>
             </TouchableWithoutFeedback>
           )}
@@ -201,7 +205,8 @@ const Post = ({
           </Text>
         )}
         <Description numberOfLines={numberOfLines}>
-          <Text type={TextType.bold}>Usuário</Text> {description && description}
+          <Text type={TextType.bold}>{username}</Text>{' '}
+          {description && description}
         </Description>
         {description && description.length > 140 && numberOfLines && (
           <Text

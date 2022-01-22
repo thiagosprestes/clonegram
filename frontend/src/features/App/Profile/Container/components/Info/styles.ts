@@ -18,7 +18,7 @@ export const Row = styled.View`
   flex: 1;
 `;
 
-export const Column = styled.View`
+export const Column = styled.TouchableOpacity`
   flex-direction: column;
   align-items: center;
   margin-left: 15px;

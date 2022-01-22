@@ -13,6 +13,8 @@ import PostComments from '~/features/App/PostComments/Screen';
 import Profile from '~/features/App/Profile/Screen';
 import Post from '~/features/App/Post/Screen';
 import Search from '~/features/App/Search/Screen';
+import Followers from '~/features/App/Followers/Screen';
+import Following from '~/features/App/Following/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -81,6 +83,113 @@ function HomeStackScreen() {
           ),
         })}
       />
+      <HomeStack.Screen
+        name={Routes.Followers}
+        component={Followers}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Seguidores',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.Following}
+        component={Following}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Seguindo',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+    </HomeStack.Navigator>
+  );
+}
+
+function SearchStackScreen() {
+  return (
+    <HomeStack.Navigator
+      screenOptions={{
+        headerShadowVisible: false,
+        headerShown: false,
+      }}
+    >
+      <HomeStack.Screen name={Routes.Search} component={Search} />
+      <HomeStack.Screen
+        name={Routes.Profile}
+        component={Profile}
+        options={({ navigation }) => ({
+          headerShown: true,
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.Followers}
+        component={Followers}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Seguidores',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.Following}
+        component={Following}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Seguindo',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
     </HomeStack.Navigator>
   );
 }
@@ -98,6 +207,43 @@ function ProfileStackScreen() {
         component={Post}
         options={({ navigation }) => ({
           title: 'Publicações',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.Followers}
+        component={Followers}
+        options={({ navigation }) => ({
+          title: 'Seguidores',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.Following}
+        component={Following}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Seguindo',
           headerLeft: () => (
             <AntDesign
               name='arrowleft'
@@ -137,13 +283,13 @@ const AppRoutes = () => {
         />
         <Tab.Screen
           name={Routes.Search}
-          component={Search}
+          component={SearchStackScreen}
           options={{
             tabBarIcon: () => <SearchIcon width={30} height={30} />,
           }}
         />
         <Tab.Screen
-          name={Routes.ProfileStack}
+          name={Routes.Profile}
           component={ProfileStackScreen}
           options={{
             tabBarIcon: () => (

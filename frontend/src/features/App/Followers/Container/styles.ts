@@ -4,6 +4,7 @@ import { colors, fonts } from '~/styleguide';
 
 export const Container = styled(SafeAreaView)`
   padding: 20px;
+  margin-top: 0px;
 `;
 
 export const Input = styled.TextInput`

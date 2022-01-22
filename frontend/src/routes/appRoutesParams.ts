@@ -9,16 +9,17 @@ export type AppNavigationRouteParams = {
   [Routes.PostComments]: {
     postId: string;
   };
-  [Routes.ProfileStack]: {
-    screen: Routes.Profile;
-    params: {
-      userId: string;
-    };
-  };
   [Routes.Profile]: {
+    screen: Routes.Profile;
     userId: string;
   };
   [Routes.Post]: {
     postId: string;
+  };
+  [Routes.Followers]: {
+    userId: string;
+  };
+  [Routes.Following]: {
+    userId: string;
   };
 };
