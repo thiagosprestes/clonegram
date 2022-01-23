@@ -20,7 +20,7 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    log.e('apiResponse', error);
+    log.e('apiResponse', error.response);
 
     if (error.response.status === 401) {
       try {

@@ -20,6 +20,7 @@ export const Button = styled.TouchableOpacity<ButtonProps>`
   padding: 16px 30px;
   height: auto;
   opacity: ${(props) => (props.isDisabled ? 0.6 : 1)};
+  width: 100%;
 `;
 
 export const ButtonText = styled(Text)<ButtonProps>`

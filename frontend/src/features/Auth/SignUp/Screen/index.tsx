@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { States } from '~/models/states';
+import { storeAuthData } from '~/redux/slices/authSlice';
+import { api } from '~/services/api';
+import { login } from '~/services/login';
+import { log } from '~/utils/log';
 import IsEmailValid from '~/utils/validateEmail';
 import SignUp, { SignUpStep } from '../Container';
 
@@ -10,6 +15,10 @@ const SignUpScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [invalidFieldMessage, setInvalidFieldMessage] = useState('');
+  const [isAccountCreatedModalVisible, setIsAccountCreatedModalVisible] =
+    useState(false);
+
+  const dispatch = useDispatch();
 
   const handleOnChangeFieldValue = (value: string) => {
     setState(States.default);
@@ -31,8 +40,16 @@ const SignUpScreen = () => {
   };
 
   const verifyUsername = async () => {
-    // setState(States.error);
-    // setInvalidFieldMessage('Este nome de usuário já está sendo utilizado');
+    const { data: isUsernameAlreadyInUse } = await api.get<boolean>(
+      `/users/verify-username/${username}`
+    );
+
+    if (isUsernameAlreadyInUse) {
+      setState(States.error);
+      setInvalidFieldMessage('Este nome de usuário já está sendo utilizado');
+      return;
+    }
+
     setStep(SignUpStep.email);
   };
 
@@ -45,10 +62,32 @@ const SignUpScreen = () => {
       return;
     }
 
+    const { data: isEmailAlreadyInUse } = await api.get<boolean>(
+      `/users/verify-email/${email}`
+    );
+
+    if (isEmailAlreadyInUse) {
+      setState(States.error);
+      setInvalidFieldMessage('Este email já está sendo utilizado');
+      return;
+    }
+
     setStep(SignUpStep.password);
   };
 
-  const finishSignUp = async () => {};
+  const finishSignUp = async () => {
+    try {
+      await api.post('/users', {
+        username,
+        email,
+        password,
+      });
+
+      setIsAccountCreatedModalVisible(true);
+    } catch (error: any) {
+      log.e('Auth/SignUp', error.response);
+    }
+  };
 
   const handleOnNext = () => {
     switch (step) {
@@ -66,12 +105,24 @@ const SignUpScreen = () => {
     }
   };
 
+  const handleOnCloseModal = async () => {
+    const authData = await login(username, password);
+
+    dispatch(storeAuthData(authData));
+
+    api.defaults.headers.common['Authorization'] = `Bearer ${authData.token}`;
+
+    setIsAccountCreatedModalVisible(false);
+  };
+
   return (
     <SignUp
       email={email}
       password={password}
       invalidFieldMessage={invalidFieldMessage}
+      isAccountCreatedModalVisible={isAccountCreatedModalVisible}
       onChangeFieldValue={handleOnChangeFieldValue}
+      onCloseModal={handleOnCloseModal}
       onNext={handleOnNext}
       state={state}
       step={step}

@@ -1,10 +1,10 @@
-import React from "react";
-import { Modal as ModalWrapper } from "react-native";
+import React from 'react';
+import { Modal as ModalWrapper } from 'react-native';
 
-import { Container } from "./styles";
+import { Container } from './styles';
 
 interface ModalProps {
-  children: React.ReactChild;
+  children: React.ReactNode;
   isVisible: boolean;
 }
 

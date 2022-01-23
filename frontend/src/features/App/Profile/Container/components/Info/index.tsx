@@ -2,6 +2,7 @@ import React from 'react';
 import { TextType } from '~/components/Text';
 import { api } from '~/services/api';
 import { colors } from '~/styleguide';
+import profile from '~/assets/profile.png';
 
 import { Column, Container, Label, Picture, Row, Value } from './styles';
 
@@ -43,9 +44,13 @@ const Info = ({
     <Container>
       <Row>
         <Picture
-          source={{
-            uri: `${api.defaults.baseURL}/images/${profilePicture}`,
-          }}
+          source={
+            profilePicture
+              ? {
+                  uri: `${api.defaults.baseURL}/images/${profilePicture}`,
+                }
+              : profile
+          }
         />
         <Row>
           <ValueAndLabel value={posts} label='Publicações' />
