@@ -40,6 +40,8 @@ const SignUpScreen = () => {
   };
 
   const verifyUsername = async () => {
+    setState(States.loading);
+
     const { data: isUsernameAlreadyInUse } = await api.get<boolean>(
       `/users/verify-username/${username}`
     );
@@ -50,6 +52,7 @@ const SignUpScreen = () => {
       return;
     }
 
+    setState(States.default);
     setStep(SignUpStep.email);
   };
 
@@ -62,6 +65,8 @@ const SignUpScreen = () => {
       return;
     }
 
+    setState(States.loading);
+
     const { data: isEmailAlreadyInUse } = await api.get<boolean>(
       `/users/verify-email/${email}`
     );
@@ -72,11 +77,14 @@ const SignUpScreen = () => {
       return;
     }
 
+    setState(States.default);
     setStep(SignUpStep.password);
   };
 
   const finishSignUp = async () => {
     try {
+      setState(States.loading);
+
       await api.post('/users', {
         username,
         email,
@@ -86,6 +94,7 @@ const SignUpScreen = () => {
       setIsAccountCreatedModalVisible(true);
     } catch (error: any) {
       log.e('Auth/SignUp', error.response);
+      setState(States.default);
     }
   };
 
