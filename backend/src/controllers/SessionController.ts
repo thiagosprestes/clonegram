@@ -73,6 +73,8 @@ class SessionController {
 
       const token = request.cookies["@clonegram:refresh_token"];
 
+      console.log(token);
+
       verify(token, process.env.REFRESH_TOKEN_SECRET);
 
       const { authToken, refreshToken } = handleGenerateTokens(username);

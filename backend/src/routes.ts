@@ -19,6 +19,12 @@ router.post(
 router.post("/login", new SessionController().create);
 router.post("/refresh-token", new SessionController().refreshToken);
 
+router.get(
+  "/users/verify-username/:username",
+  new UserController().verifyUsername
+);
+router.get("/users/verify-email/:email", new UserController().verifyEmail);
+
 router.post(
   "/posts",
   sessionMiddleware,

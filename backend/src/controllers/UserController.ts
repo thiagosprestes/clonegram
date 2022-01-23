@@ -238,6 +238,38 @@ class UserController {
         .json({ message: "Error when delete user", error });
     }
   }
+
+  async verifyUsername(request: Request, response: Response) {
+    const userModel = prismaClient.user;
+
+    const { username } = request.params;
+
+    const isUsernameAlreadyInUse = await userModel.findFirst({
+      where: {
+        username,
+      },
+    });
+
+    if (isUsernameAlreadyInUse) return response.status(200).json(true);
+
+    return response.status(200).json(false);
+  }
+
+  async verifyEmail(request: Request, response: Response) {
+    const userModel = prismaClient.user;
+
+    const { email } = request.params;
+
+    const isEmailAlreadyInUse = await userModel.findFirst({
+      where: {
+        email,
+      },
+    });
+
+    if (isEmailAlreadyInUse) return response.status(200).json(true);
+
+    return response.status(200).json(false);
+  }
 }
 
 export { UserController };
