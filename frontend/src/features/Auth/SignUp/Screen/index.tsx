@@ -1,14 +1,20 @@
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { States } from '~/models/states';
 import { storeAuthData } from '~/redux/slices/authSlice';
+import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 import { login } from '~/services/login';
 import { log } from '~/utils/log';
 import IsEmailValid from '~/utils/validateEmail';
 import SignUp, { SignUpStep } from '../Container';
 
-const SignUpScreen = () => {
+interface SignUpScreenProps {
+  navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
+}
+
+const SignUpScreen = ({ navigation }: SignUpScreenProps) => {
   const [step, setStep] = useState(SignUpStep.username);
   const [state, setState] = useState(States.default);
   const [username, setUsername] = useState('');
@@ -124,12 +130,28 @@ const SignUpScreen = () => {
     setIsAccountCreatedModalVisible(false);
   };
 
+  const handleOnBack = () => {
+    switch (step) {
+      case SignUpStep.username:
+        navigation.goBack();
+        break;
+      case SignUpStep.email:
+        setStep(SignUpStep.username);
+        break;
+      case SignUpStep.password:
+        setStep(SignUpStep.email);
+      default:
+        break;
+    }
+  };
+
   return (
     <SignUp
       email={email}
       password={password}
       invalidFieldMessage={invalidFieldMessage}
       isAccountCreatedModalVisible={isAccountCreatedModalVisible}
+      onBack={handleOnBack}
       onChangeFieldValue={handleOnChangeFieldValue}
       onCloseModal={handleOnCloseModal}
       onNext={handleOnNext}

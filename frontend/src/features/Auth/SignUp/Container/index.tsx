@@ -23,6 +23,7 @@ interface SignUpProps {
   isAccountCreatedModalVisible: boolean;
   email: string;
   invalidFieldMessage: string;
+  onBack: () => void;
   onChangeFieldValue: (value: string) => void;
   onCloseModal: () => void;
   onNext: () => void;
@@ -36,6 +37,7 @@ const SignUp = ({
   isAccountCreatedModalVisible,
   email,
   invalidFieldMessage,
+  onBack,
   onChangeFieldValue,
   onCloseModal,
   onNext,
@@ -49,6 +51,7 @@ const SignUp = ({
       {
         [SignUpStep.username]: (
           <Step
+            onBack={onBack}
             onChangeFieldValue={onChangeFieldValue}
             onNext={onNext}
             fieldValue={username}
@@ -61,6 +64,7 @@ const SignUp = ({
         ),
         [SignUpStep.email]: (
           <Step
+            onBack={onBack}
             onChangeFieldValue={onChangeFieldValue}
             onNext={onNext}
             fieldValue={email}
@@ -73,6 +77,7 @@ const SignUp = ({
         ),
         [SignUpStep.password]: (
           <Step
+            onBack={onBack}
             onChangeFieldValue={onChangeFieldValue}
             onNext={onNext}
             fieldValue={password}

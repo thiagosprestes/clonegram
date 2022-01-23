@@ -10,12 +10,15 @@ import {
   Input,
   NextButton,
   Message,
+  Back,
+  BackText,
 } from './styles';
 
 interface StepProps {
   fieldValue: string;
   state: States;
   invalidFieldMessage: string;
+  onBack: () => void;
   onChangeFieldValue: (value: string) => void;
   onNext: () => void;
   title: string;
@@ -27,6 +30,7 @@ const Step = ({
   fieldValue,
   state,
   invalidFieldMessage,
+  onBack,
   onChangeFieldValue,
   onNext,
   title,
@@ -63,6 +67,9 @@ const Step = ({
       }
       isLoading={state === States.loading}
     />
+    <Back onPress={onBack}>
+      <BackText type={TextType.bold}>Voltar</BackText>
+    </Back>
   </Container>
 );
 

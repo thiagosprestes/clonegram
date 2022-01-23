@@ -42,3 +42,12 @@ export const Message = styled(Text)`
   color: ${colors.primaryRed};
   margin-bottom: 20px;
 `;
+
+export const Back = styled.TouchableOpacity`
+  align-self: center;
+  margin-top: 20px;
+`;
+
+export const BackText = styled(Text)`
+  color: ${colors.blue};
+`;
