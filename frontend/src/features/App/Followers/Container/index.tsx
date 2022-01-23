@@ -4,9 +4,10 @@ import Error from '~/components/Error';
 import Loading from '~/components/Loading';
 import { States } from '~/models/states';
 import UsersListItem from '~/components/UsersListItem';
-import { Container, Input } from './styles';
+import { Container } from './styles';
 import { colors } from '~/styleguide';
 import { UserFollower } from '~/models/follower';
+import Input from '~/components/Input';
 
 interface FollowersProps {
   followers: UserFollower[];
@@ -31,10 +32,10 @@ const Followers = ({
       keyExtractor={(item) => item.id}
       showsVerticalScrollIndicator={false}
       renderItem={({ item }: { item: UserFollower }) => (
-        <TouchableOpacity onPress={() => onGoToProfile(item.followerUser.id)}>
+        <TouchableOpacity onPress={() => onGoToProfile(item.followingUser.id)}>
           <UsersListItem
-            username={item.followerUser.username}
-            userPicture={item.followerUser.profile.profile_picture}
+            username={item.followingUser.username}
+            userPicture={item.followingUser.profile.profile_picture}
           />
         </TouchableOpacity>
       )}
@@ -49,9 +50,9 @@ const Followers = ({
     <Container>
       <Input
         placeholder='Digite um nome de usuário'
-        placeholderTextColor={colors.lightGreyText}
-        onChangeText={(text) => onChangeFollowersInput(text)}
-        value={username}
+        // placeholderTextColor={colors.lightGreyText}
+        onChangeFieldValue={(text: string) => onChangeFollowersInput(text)}
+        fieldValue={username}
       />
       {
         {

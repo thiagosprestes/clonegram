@@ -27,6 +27,7 @@ interface ProfileProps {
   onGoToFollowers: () => void;
   onGoToFollowing: () => void;
   onGoToPost: (postId: string) => void;
+  onGoToUpdate: (userId: string) => void;
   onUnfollow: (userId: string) => void;
   posts: PostResponse[];
   onRetry: () => void;
@@ -48,6 +49,7 @@ const Profile = ({
   onGoToFollowers,
   onGoToFollowing,
   onGoToPost,
+  onGoToUpdate,
   onRetry,
   state,
   username,
@@ -72,7 +74,7 @@ const Profile = ({
         name={username}
         isFollowedByUser={isFollowedByUser}
         onFollow={onFollow}
-        onGoToUpdate={() => undefined}
+        onGoToUpdate={onGoToUpdate}
         onUnfollow={onUnfollow}
         userId={userId}
       />

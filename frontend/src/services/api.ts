@@ -39,5 +39,7 @@ api.interceptors.response.use(
         log.e('refreshToken', error);
       }
     }
+
+    return Promise.reject(error);
   }
 );

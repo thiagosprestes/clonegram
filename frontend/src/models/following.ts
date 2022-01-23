@@ -1,7 +1,7 @@
 import { PostUser } from './post';
 
 export interface UserFollowing {
-  followingUser: PostUser;
+  followerUser: PostUser;
   id: string;
   userFollowId: string;
   userId: string;

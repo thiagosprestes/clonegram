@@ -102,6 +102,12 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
     });
   };
 
+  const handleOnGoToUpdate = () => {
+    navigation.navigate(Routes.EditProfile, {
+      userId,
+    });
+  };
+
   useFocusEffect(
     useCallback(() => {
       handleOnGetUserProfile();
@@ -137,6 +143,7 @@ const ProfileScreen = ({ navigation, route }: ProfileScreenProps) => {
       onFollow={handleOnFollow}
       onGoToFollowers={handleOnGoToFollowers}
       onGoToFollowing={handleOnGoToFollowing}
+      onGoToUpdate={handleOnGoToUpdate}
       onGoToPost={handleOnGoToPost}
       onUnfollow={handleOnUnfollow}
       onRetry={handleOnGetUserProfile}

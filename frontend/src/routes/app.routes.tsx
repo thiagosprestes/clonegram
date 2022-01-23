@@ -15,6 +15,7 @@ import Post from '~/features/App/Post/Screen';
 import Search from '~/features/App/Search/Screen';
 import Followers from '~/features/App/Followers/Screen';
 import Following from '~/features/App/Following/Screen';
+import EditProfileScreen from '~/features/App/EditProfile/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -244,6 +245,25 @@ function ProfileStackScreen() {
         options={({ navigation }) => ({
           headerShown: true,
           title: 'Seguindo',
+          headerLeft: () => (
+            <AntDesign
+              name='arrowleft'
+              size={24}
+              color='black'
+              onPress={() => {
+                navigation.goBack();
+              }}
+              style={{ marginRight: 10 }}
+            />
+          ),
+        })}
+      />
+      <HomeStack.Screen
+        name={Routes.EditProfile}
+        component={EditProfileScreen}
+        options={({ navigation }) => ({
+          headerShown: true,
+          title: 'Editar perfil',
           headerLeft: () => (
             <AntDesign
               name='arrowleft'

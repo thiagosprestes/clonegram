@@ -23,4 +23,5 @@ export type AppNavigationRouteParams = {
     userId: string;
   };
   [Routes.SignUp]: undefined;
+  [Routes.EditProfile]: { userId: string };
 };
