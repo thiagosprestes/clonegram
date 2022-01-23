@@ -77,7 +77,7 @@ class PostController {
         OR: [
           {
             user: {
-              follows: {
+              followers: {
                 some: {
                   userId,
                 },

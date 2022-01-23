@@ -2,6 +2,25 @@ import prismaClient from "@src/config/prisma";
 import { Request, Response } from "express";
 import * as yup from "yup";
 import bcrypt from "bcrypt";
+import { Prisma } from "@prisma/client";
+
+const QueryError = {
+  UniqueConstraintViolation: "P2002",
+} as const;
+
+interface UniqueConstraintViolation {
+  code: "P2002";
+  meta: {
+    target: string[];
+  };
+}
+
+function isUniqueConstraintViolation(error: {
+  code: string;
+}): error is UniqueConstraintViolation {
+  console.log(QueryError);
+  return error.code === QueryError.UniqueConstraintViolation;
+}
 
 class UserController {
   async create(request: Request, response: Response) {
@@ -165,9 +184,9 @@ class UserController {
         return response.status(404).json({ message: "User not found" });
 
       const schema = yup.object().shape({
-        username: yup.string().required(),
-        email: yup.string().email().required(),
-        password: yup.string().required(),
+        username: yup.string(),
+        email: yup.string().email(),
+        password: yup.string(),
         profile_picture: yup.string(),
         bio: yup.string(),
       });
@@ -180,7 +199,7 @@ class UserController {
 
       const result = await userModel.update({
         where: {
-          email,
+          id,
         },
         data: {
           email,
@@ -197,7 +216,26 @@ class UserController {
 
       return response.json(result);
     } catch (error) {
+      if (isUniqueConstraintViolation(error)) {
+        if (error.meta.target[0] === "username") {
+          return response.status(400).json({
+            message: "Error when update user",
+            error: "Username already in use",
+            field: "username",
+          });
+        }
+
+        if (error.meta.target[0] === "email") {
+          return response.status(400).json({
+            message: "Error when update user",
+            error: "Email already in use",
+            field: "email",
+          });
+        }
+      }
+
       console.log(error);
+
       return response
         .status(400)
         .json({ message: "Error when update user", error });

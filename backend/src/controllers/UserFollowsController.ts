@@ -77,8 +77,8 @@ class UserFollowsController {
 
     const userFollows = await userFollowsModel.findMany({
       where: {
-        userFollowId: userId,
-        followingUser: {
+        userId,
+        followerUser: {
           username: {
             contains: username as string,
             mode: "insensitive",
@@ -86,7 +86,7 @@ class UserFollowsController {
         },
       },
       include: {
-        followingUser: {
+        followerUser: {
           select: {
             id: true,
             username: true,
