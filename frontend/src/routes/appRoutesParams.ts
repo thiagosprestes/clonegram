@@ -10,7 +10,7 @@ export type AppNavigationRouteParams = {
     postId: string;
   };
   [Routes.Profile]: {
-    screen: Routes.Profile;
+    screen?: Routes.Profile;
     userId: string;
   };
   [Routes.Post]: {
@@ -24,4 +24,5 @@ export type AppNavigationRouteParams = {
   };
   [Routes.SignUp]: undefined;
   [Routes.EditProfile]: { userId: string };
+  [Routes.Camera]: undefined;
 };

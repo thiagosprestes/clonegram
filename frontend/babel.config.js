@@ -1,14 +1,15 @@
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: ["babel-preset-expo", "module:metro-react-native-babel-preset"],
+    presets: ['babel-preset-expo', 'module:metro-react-native-babel-preset'],
     plugins: [
-      "babel-plugin-styled-components",
+      'react-native-reanimated/plugin',
+      'babel-plugin-styled-components',
       [
-        "babel-plugin-root-import",
+        'babel-plugin-root-import',
         {
-          rootPathPrefix: "~",
-          rootPathSuffix: "src",
+          rootPathPrefix: '~',
+          rootPathSuffix: 'src',
         },
       ],
     ],

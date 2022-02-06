@@ -10,4 +10,5 @@ export enum Routes {
   Following = 'Following',
   SignUp = 'SignUp',
   EditProfile = 'EditProfile',
+  Camera = 'Camera',
 }

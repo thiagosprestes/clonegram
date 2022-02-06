@@ -16,6 +16,7 @@ import Search from '~/features/App/Search/Screen';
 import Followers from '~/features/App/Followers/Screen';
 import Following from '~/features/App/Following/Screen';
 import EditProfileScreen from '~/features/App/EditProfile/Screen';
+import Camera from '~/features/App/Camera/Screen';
 
 const HomeStack = createNativeStackNavigator();
 
@@ -122,6 +123,7 @@ function HomeStackScreen() {
           ),
         })}
       />
+      <HomeStack.Screen name={Routes.Camera} component={Camera} />
     </HomeStack.Navigator>
   );
 }

@@ -15,6 +15,7 @@ interface HomeProps {
   onGoToLikes: (postId: string) => void;
   onGoToUserProfile: (userId: string) => void;
   onLikePost: (postId: string) => void;
+  onOpenCamera: () => void;
   onRetry: () => void;
   onRefresh: () => void;
   posts: PostResponse[];
@@ -28,6 +29,7 @@ const Home = ({
   onGoToLikes,
   onGoToUserProfile,
   onLikePost,
+  onOpenCamera,
   onRetry,
   onRefresh,
   posts,
@@ -77,7 +79,7 @@ const Home = ({
 
   return (
     <Container>
-      <Header />
+      <Header onOpenCamera={onOpenCamera} />
       {
         {
           [States.default]: content,

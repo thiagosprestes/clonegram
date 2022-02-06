@@ -17,10 +17,7 @@ import { AppNavigationRouteParams } from '~/routes/appRoutesParams';
 import { api } from '~/services/api';
 
 interface HomeScreenProps {
-  navigation: NativeStackNavigationProp<
-    AppNavigationRouteParams,
-    Routes.Profile
-  >;
+  navigation: NativeStackNavigationProp<AppNavigationRouteParams>;
 }
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
@@ -126,6 +123,10 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     });
   };
 
+  const handleOnOpenCamera = () => {
+    navigation.navigate(Routes.Camera);
+  };
+
   useFocusEffect(
     useCallback(() => {
       handleOnGetPosts();
@@ -139,6 +140,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       onGoToLikes={handleOnGoToLikes}
       onGoToUserProfile={handleOnGoToUserProfile}
       onLikePost={handleOnLikePost}
+      onOpenCamera={handleOnOpenCamera}
       onRefresh={handleOnRefresh}
       onRetry={handleOnGetPosts}
       posts={posts}
